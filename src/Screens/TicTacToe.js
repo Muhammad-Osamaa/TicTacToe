@@ -10,7 +10,7 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 const TicTacToe = () => {
   const cellSize = Math.min(width, height) / 6;
@@ -20,7 +20,17 @@ const TicTacToe = () => {
 
   useEffect(() => {
     if (winner !== '') {
-      Alert.alert(winner + ' Won The Game');
+      Alert.alert(
+        winner + ' Won The Game',
+        '',
+        [
+          {
+            text: 'OK',
+            onPress: () => resetGame(),
+          },
+        ],
+        {backgroundColor: '#2B2B52', color: '#FFFFF'},
+      );
     }
   }, [winner]);
   const drawItem = (row, col) => {
@@ -29,14 +39,39 @@ const TicTacToe = () => {
     if (board[index] === 'question' && winner === '') {
       const newBoard = [...board];
       newBoard[index] = isCross ? 'cross' : 'circle';
-      setBoard(newBoard);
 
       const winningPlayer = winGame(newBoard);
       if (winningPlayer !== '') {
-        console.log(winningPlayer + 'Won The Game');
         setWinner(winningPlayer);
+        Alert.alert(
+          winningPlayer + 'Won The Game',
+          '',
+          [
+            {
+              text: 'OK',
+              onPress: () => resetGame(),
+            },
+          ],
+          {backgroundColor: '#2B2B52', color: '#FFFFF'},
+        );
+      } else if (!newBoard.includes('question')) {
+        Alert.alert(
+          'The game is drawn',
+          '',
+          [
+            {
+              text: 'OK',
+              onPress: () => resetGame(),
+            },
+          ],
+          {
+            backgroundColor: 'red',
+            color: '#FFFFF',
+          },
+        );
       } else {
         setIsCross(!isCross);
+        setBoard(newBoard);
       }
     }
   };
@@ -60,49 +95,56 @@ const TicTacToe = () => {
       board[0] === board[1] &&
       board[1] === board[2]
     ) {
-      console.log('Player' + board[0] + 'won');
+      setWinner(board[0]);
       return board[0];
     } else if (
       board[3] !== 'question' &&
       board[3] === board[4] &&
       board[4] === board[5]
     ) {
+      setWinner(board[3]);
       return board[3];
     } else if (
       board[6] !== 'question' &&
       board[6] === board[7] &&
       board[7] === board[8]
     ) {
+      setWinner(board[6]);
       return board[6];
     } else if (
       board[0] !== 'question' &&
       board[0] === board[3] &&
       board[3] === board[6]
     ) {
+      setWinner(board[0]);
       return board[0];
     } else if (
       board[1] !== 'question' &&
       board[1] === board[4] &&
       board[4] === board[7]
     ) {
+      setWinner(board[1]);
       return board[1];
     } else if (
       board[2] !== 'question' &&
       board[2] === board[5] &&
       board[5] === board[8]
     ) {
+      setWinner(board[2]);
       return board[2];
     } else if (
       board[0] !== 'question' &&
       board[0] === board[4] &&
       board[4] === board[8]
     ) {
+      setWinner([0]);
       return board[0];
     } else if (
       board[2] !== 'question' &&
       board[2] === board[4] &&
       board[4] === board[6]
     ) {
+      setWinner([2]);
       return board[2];
     } else {
       console.log('No Winner Yet');
@@ -123,15 +165,15 @@ const TicTacToe = () => {
     ]);
     resetGame();
   }, []);
-  useEffect(() => {
-    if (winner !== '') {
-      Alert.alert(winner + 'Won The Game');
-    }
-  }, [winner]);
+  // useEffect(() => {
+  //   if (winner !== '') {
+  //     Alert.alert(winner + 'Won The Game');
+  //   }
+  // }, [winner]);
 
   return (
     <View style={styles.container}>
-      <Text style={{color: '#01CBC6', fontSize: 30}}>Tic Tac Toe</Text>
+      <Text style={{color: '#01CBC6', fontSize: 30, padding: 30}}>Tic Tac Toe</Text>
 
       <View>
         {[0, 1, 2].map(row => (
@@ -175,17 +217,17 @@ const TicTacToe = () => {
           flexDirection: 'row',
           padding: 10,
           backgroundColor: '#E74292',
-          width: 150,
+          width: 140,
           borderRadius: 10,
           alignItems: 'center',
         }}
         onPress={resetGame}>
         <MaterialCommunityIcons
           name="restart-alert"
-          size={24}
+          size={22}
           color="#2B2B52"
         />
-        <Text style={{color: '#2B2B52', fontSize: 16}}>Restart Game</Text>
+        <Text style={{color: '#2B2B52', fontSize: 15}}>Restart Game</Text>
       </TouchableOpacity>
     </View>
   );
