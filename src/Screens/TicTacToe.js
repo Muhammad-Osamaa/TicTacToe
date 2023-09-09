@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Board from './Board';
+import GameMessage from './GameMessage';
+import DifficultyLevel from './DifficultyLevel';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -17,6 +20,87 @@ const TicTacToe = () => {
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
+  const [difficultyLevel, setDifficultyLevel] = useState('easy');
+  
+  const makeAIMove = () => {
+    if (!isCross && !winner) {
+      if (difficultyLevel === 'easy') {
+        const emptyCells = board.reduce((acc, cell, index) => {
+          if (cell === 'question') {
+            acc.push(index);
+          }
+          return acc;
+        }, []);
+        if (emptyCells.length > 0) {
+          const randomIndex =
+            emptyCells[Math.floor(Math.random() * emptyCells.length)];
+          const row = Math.floor(randomIndex / 3);
+          const col = randomIndex % 3;
+          drawItem(row, col);
+        }
+      } else if (difficultyLevel === 'hard') {
+        const bestMove = minimax(board, 'circle', isCross);
+        drawItem(bestMove.row, bestMove.col);
+      }
+    }
+  };
+  useEffect(() => {
+    makeAIMove();
+  }, [isCross, winner]);
+
+  const minimax = (currentBoard, player) => {
+    const availableCells = currentBoard.reduce((acc, cell, index) => {
+      if (cell === 'question') {
+        acc.push(index);
+      }
+      return acc;
+    }, []);
+    if (winner === 'cross') {
+      return {score: -1};
+    } else if (winner === 'circle') {
+      return {score: 1};
+    } else if (availableCells.length === 0) {
+      return {score: 0};
+    }
+    const moves = [];
+    for (let i = 0; i < availableCells.length; i++) {
+      const move = {};
+      const index = availableCells[i];
+      move.index = index;
+      currentBoard[index] = player;
+
+      if (player === 'circle') {
+        const result = minimax(currentBoard, 'cross');
+        move.score = result.score;
+      } else {
+        const result = minimax(currentBoard, 'circle');
+        move.score = result.score;
+      }
+
+      currentBoard[index] = 'question';
+      moves.push(move);
+    }
+
+    let bestMove;
+    if (player === 'circle') {
+      let bestScore = -Infinity;
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score > bestScore) {
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    } else {
+      let bestScore = Infinity;
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score < bestScore) {
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    }
+    return moves[bestMove];
+  };
 
   useEffect(() => {
     if (winner !== '') {
@@ -137,7 +221,7 @@ const TicTacToe = () => {
       board[0] === board[4] &&
       board[4] === board[8]
     ) {
-      setWinner([0]);
+      setWinner(board[0]);
       return board[0];
     } else if (
       board[2] !== 'question' &&
@@ -173,8 +257,13 @@ const TicTacToe = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{color: '#01CBC6', fontSize: 30, padding: 30}}>Tic Tac Toe</Text>
-
+      <Text style={{color: '#01CBC6', fontSize: 30, padding: 30}}>
+        Tic Tac Toe
+      </Text>
+      <DifficultyLevel
+        difficultyLevel={difficultyLevel}
+        setDifficultyLevel={setDifficultyLevel}
+      />
       <View>
         {[0, 1, 2].map(row => (
           <View key={row} style={{flexDirection: 'row'}}>
@@ -189,7 +278,8 @@ const TicTacToe = () => {
                   borderWidth: 1,
                   borderColor: '#2B2B52',
                 }}
-                onPress={() => drawItem(row, col)}>
+                onPress={() => drawItem(row, col)}
+                disabled = {board[row * 3 + col] !== 'question'}>
                 {board[row * 3 + col] === 'question' ? (
                   <Text
                     style={{
