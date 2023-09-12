@@ -9,19 +9,25 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Board from './Board';
-import GameMessage from './GameMessage';
-import DifficultyLevel from './DifficultyLevel';
+import Board from '../components/Board';
+import GameMessage from '../components/GameMessage';
+import DifficultyLevel from '../components/DifficultyLevel';
+import ModalView from '../components/ModalView';
 
 const {width, height} = Dimensions.get('screen');
 
 const TicTacToe = () => {
-  const cellSize = Math.min(width, height) / 6;
+  const cellSize = Math.min(width, height) / 3.5;
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
   const [difficultyLevel, setDifficultyLevel] = useState('easy');
-  
+  const [showModal, setShowModal] = useState(true);
+
+  const handleModalSelection = (selectedOption) => {
+    setShowModal(false);
+  };
+
   const makeAIMove = () => {
     if (!isCross && !winner) {
       if (difficultyLevel === 'easy') {
@@ -257,12 +263,13 @@ const TicTacToe = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{color: '#01CBC6', fontSize: 30, padding: 30}}>
+      <Text style={{color: '#01CBC6', fontSize: 30, padding: 30, marginTop: 5}}>
         Tic Tac Toe
       </Text>
       <DifficultyLevel
         difficultyLevel={difficultyLevel}
         setDifficultyLevel={setDifficultyLevel}
+        style={styles.difficultyLevel}
       />
       <View>
         {[0, 1, 2].map(row => (
@@ -279,7 +286,7 @@ const TicTacToe = () => {
                   borderColor: '#2B2B52',
                 }}
                 onPress={() => drawItem(row, col)}
-                disabled = {board[row * 3 + col] !== 'question'}>
+                disabled={board[row * 3 + col] !== 'question'}>
                 {board[row * 3 + col] === 'question' ? (
                   <Text
                     style={{
@@ -329,6 +336,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  main: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  difficultyLevel:{
+    padding: 10,
+    margin:10,
   },
 });
 export default TicTacToe;

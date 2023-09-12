@@ -4,7 +4,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 const DifficultyLevel = ({difficultyLevel, setDifficultyLevel}) => {
   return (
     <View>
-      <Text style={{color: '#FFFF', fontSize: 20}}>DifficultyLevel:</Text>
+      <Text style={styles.text}>Difficulty Level:</Text>
       <View
         style={{
           flexDirection: 'row',
@@ -36,6 +36,14 @@ const styles = StyleSheet.create({
   difficultyButton: {
     padding: 10,
     borderRadius: 5,
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 20,
+    color: '#FDE5EC',
+    fontStyle: 'italic',
+    fontFamily: 'sans-serif-thin',
+    fontWeight: 'bold',
   },
 });
 export default DifficultyLevel;
