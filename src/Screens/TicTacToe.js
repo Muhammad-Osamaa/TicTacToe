@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  Modal,
   Dimensions,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -24,7 +25,7 @@ const TicTacToe = () => {
   const [difficultyLevel, setDifficultyLevel] = useState('easy');
   const [showModal, setShowModal] = useState(true);
 
-  const handleModalSelection = (selectedOption) => {
+  const handleModalSelection = selectedOption => {
     setShowModal(false);
   };
 
@@ -263,7 +264,8 @@ const TicTacToe = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{color: '#01CBC6', fontSize: 30, padding: 30, marginTop: 5}}>
+      <ModalView visible={showModal} onSelectMode={handleModalSelection} />
+      <Text style={{color: '#7ae582', fontSize: 30, padding: 30, marginTop: 5}}>
         Tic Tac Toe
       </Text>
       <DifficultyLevel
@@ -271,7 +273,7 @@ const TicTacToe = () => {
         setDifficultyLevel={setDifficultyLevel}
         style={styles.difficultyLevel}
       />
-      <View>
+      <View style={styles.board}>
         {[0, 1, 2].map(row => (
           <View key={row} style={{flexDirection: 'row'}}>
             {[0, 1, 2].map(col => (
@@ -313,9 +315,8 @@ const TicTacToe = () => {
           marginTop: 20,
           flexDirection: 'row',
           padding: 10,
-          backgroundColor: '#E74292',
+          backgroundColor: '#7ae582',
           width: 140,
-          borderRadius: 10,
           alignItems: 'center',
         }}
         onPress={resetGame}>
@@ -333,7 +334,7 @@ const TicTacToe = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#9fffcb',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -341,9 +342,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  difficultyLevel:{
+  difficultyLevel: {
     padding: 10,
-    margin:10,
+    margin: 10,
   },
 });
 export default TicTacToe;

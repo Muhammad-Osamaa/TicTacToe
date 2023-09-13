@@ -1,13 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  View,
-  ImageBackground,
-  Text,
-  StyleSheet,
-  Image,
-  Animated,
-  Easing,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, Animated, Easing} from 'react-native';
 
 const SplashScreen = ({navigation}) => {
   const fadeInAnim = useRef(new Animated.Value(0)).current;
@@ -35,7 +27,7 @@ const SplashScreen = ({navigation}) => {
       }),
     ]).start();
     const timer = setTimeout(() => {
-      navigation.navigate('TicTacToe');
+      navigation.navigate('Home');
     }, delay);
 
     return () => {
@@ -58,7 +50,7 @@ const SplashScreen = ({navigation}) => {
     <View style={styles.container}>
       <Animated.View style={[styles.main, {opacity: fadeInAnim}, rotateStyle]}>
         <Image
-          source={require('../assets/images/blackWhite2.png')}
+          source={require('../assets/images/edited.png')}
           style={styles.image}
         />
         <Text style={styles.text}>Develop By M.O</Text>

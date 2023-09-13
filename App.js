@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import TicTacToe from './src/screens/TicTacToe';
 import 'react-native-gesture-handler';
 import SplashScreen from './src/screens/SplashScreen';
+import Home from './src/screens/Home';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
         initialRouteName="SplashScreen"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="TicTacToe" component={TicTacToe} />
       </Stack.Navigator>
     </NavigationContainer>
