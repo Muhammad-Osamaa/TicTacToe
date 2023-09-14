@@ -264,8 +264,8 @@ const TicTacToe = () => {
 
   return (
     <View style={styles.container}>
-      <ModalView visible={showModal} onSelectMode={handleModalSelection} />
-      <Text style={{color: '#7ae582', fontSize: 30, padding: 30, marginTop: 5}}>
+      {/* <ModalView visible={showModal} onSelectMode={handleModalSelection} /> */}
+      <Text style={{color: '#F73D93', fontSize: 30, padding: 30, marginTop: 5}}>
         Tic Tac Toe
       </Text>
       <DifficultyLevel
@@ -285,7 +285,6 @@ const TicTacToe = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderWidth: 1,
-                  borderColor: '#2B2B52',
                 }}
                 onPress={() => drawItem(row, col)}
                 disabled={board[row * 3 + col] !== 'question'}>
@@ -334,7 +333,7 @@ const TicTacToe = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#9fffcb',
+    backgroundColor: '#4C0033',
     alignItems: 'center',
     justifyContent: 'center',
   },

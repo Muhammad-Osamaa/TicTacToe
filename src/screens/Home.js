@@ -1,135 +1,62 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
-
-import DifficultyLevel from '../components/DifficultyLevel';
-import ModalView from '../components/ModalView';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  BackHandler,
+} from 'react-native';
 
 const Home = ({navigation}) => {
-  const [difficultyLevel, setDifficultyLevel] = useState('easy');
-  const [showModal, setShowModal] = useState(true);
-  const [isCross, setIsCross] = useState(true);
-  const [winner, setWinner] = useState('');
-
-  const handleModalSelection = selectedOption => {
-    setShowModal(false);
-  };
-
-  const makeAIMove = () => {
-    if (!isCross && !winner) {
-      if (difficultyLevel === 'easy') {
-        const emptyCells = board.reduce((acc, cell, index) => {
-          if (cell === 'question') {
-            acc.push(index);
-          }
-          return acc;
-        }, []);
-        if (emptyCells.length > 0) {
-          const randomIndex =
-            emptyCells[Math.floor(Math.random() * emptyCells.length)];
-          const row = Math.floor(randomIndex / 3);
-          const col = randomIndex % 3;
-          drawItem(row, col);
-        }
-      } else if (difficultyLevel === 'hard') {
-        const bestMove = minimax(board, 'circle', isCross);
-        drawItem(bestMove.row, bestMove.col);
-      }
-    }
+  const handleExit = () => {
+    Alert.alert(
+      'Exit App',
+      'Are You Sure Want to exit the game?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Exit',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ],
+      {cancelable: false},
+    );
   };
   useEffect(() => {
-    makeAIMove();
-  }, [isCross, winner]);
-  const minimax = (currentBoard, player) => {
-    const availableCells = currentBoard.reduce((acc, cell, index) => {
-      if (cell === 'question') {
-        acc.push(index);
-      }
-      return acc;
-    }, []);
-    if (winner === 'cross') {
-      return {score: -1};
-    } else if (winner === 'circle') {
-      return {score: 1};
-    } else if (availableCells.length === 0) {
-      return {score: 0};
-    }
-    const moves = [];
-    for (let i = 0; i < availableCells.length; i++) {
-      const move = {};
-      const index = availableCells[i];
-      move.index = index;
-      currentBoard[index] = player;
-
-      if (player === 'circle') {
-        const result = minimax(currentBoard, 'cross');
-        move.score = result.score;
-      } else {
-        const result = minimax(currentBoard, 'circle');
-        move.score = result.score;
-      }
-
-      currentBoard[index] = 'question';
-      moves.push(move);
-    }
-
-    let bestMove;
-    if (player === 'circle') {
-      let bestScore = -Infinity;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score > bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }
-      }
-    } else {
-      let bestScore = Infinity;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score < bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }
-      }
-    }
-    return moves[bestMove];
-  };
-
-  useEffect(() => {
-    if (winner !== '') {
-      Alert.alert(
-        winner + ' Won The Game',
-        '',
-        [
-          {
-            text: 'OK',
-            onPress: () => resetGame(),
-          },
-        ],
-        {backgroundColor: '#2B2B52', color: '#FFFFF'},
-      );
-    }
-  }, [winner]);
+    const backAction = () => {
+      handleExit();
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
   return (
     <View style={styles.container}>
-      <ModalView visible={showModal} onSelectMode={handleModalSelection} />
-      <View style={styles.mainView}>
-        <Text style={styles.mainText}>Tic Tac Toe</Text>
-        <DifficultyLevel
-          difficultyLevel={difficultyLevel}
-          setDifficultyLevel={setDifficultyLevel}
-          style={styles.difficultyLevel}
-        />
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Tic Tac Toe</Text>
       </View>
-      <View style={styles.buttonView}>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.firstButton}
+          style={styles.button}
+          onPress={() => navigation.navigate('MultiPlayer')}>
+          <Text style={styles.buttonText}>Multi Player</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => navigation.navigate('TicTacToe')}>
-          <Text style={styles.firstButtonText}>Single player</Text>
+          <Text style={styles.buttonText}>Play With AI</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.secondButton}>
-          <Text style={styles.secondButtonText}>Play With AI</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.thirdButton}>
-          <Text style={styles.thirdButtonText}>Exit</Text>
+        <TouchableOpacity style={styles.button} onPress={handleExit}>
+          <Text style={styles.buttonText}>Exit</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -138,20 +65,50 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#4C0033',
+  },
+  header: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
   },
-  mainView: {},
-  mainText: {
-    fontSize: 16,
-    color: '#000',
+  headerText: {
+    fontSize: 48,
+    color: '#F73D93',
   },
-  buttonView: {},
-  firstButton: {},
-  firstButtonText: {},
-  secondButton: {},
-  secondButtonText: {},
-  thirdButton: {},
-  thirdButtonText: {},
+  buttonContainer: {
+    flex: 2,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  button: {
+    backgroundColor: '#790252',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    borderColor: '#F73D93',
+    borderWidth: 2,
+    width: '70%',
+    marginTop: 20,
+    marginBottom: 10,
+    alignItems: 'center',
+    shadowColor: '#FF55BB',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'sans-serif',
+    color: '#FFE5F1',
+  },
 });
 export default Home;

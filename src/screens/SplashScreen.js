@@ -50,7 +50,7 @@ const SplashScreen = ({navigation}) => {
     <View style={styles.container}>
       <Animated.View style={[styles.main, {opacity: fadeInAnim}, rotateStyle]}>
         <Image
-          source={require('../assets/images/edited.png')}
+          source={require('../assets/images/osamaLogo.png')}
           style={styles.image}
         />
         <Text style={styles.text}>Develop By M.O</Text>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#000',
+    backgroundColor: '#4C0033',
   },
   main: {
     flex: 1,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     height: 500,
   },
   text: {
-    fontSize: 18,
+    fontSize: 14,
     fontStyle: 'italic',
     color: '#FAF3F0',
     fontFamily: 'sans-serif-condensed',

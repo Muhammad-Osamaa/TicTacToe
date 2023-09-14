@@ -5,6 +5,7 @@ import TicTacToe from './src/screens/TicTacToe';
 import 'react-native-gesture-handler';
 import SplashScreen from './src/screens/SplashScreen';
 import Home from './src/screens/Home';
+import MultiPlayer from './src/screens/MultiPlayer';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="TicTacToe" component={TicTacToe} />
+        <Stack.Screen name="MultiPlayer" component={MultiPlayer} />
       </Stack.Navigator>
     </NavigationContainer>
   );
