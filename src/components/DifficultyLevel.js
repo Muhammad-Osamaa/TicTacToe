@@ -22,6 +22,14 @@ const DifficultyLevel = ({difficultyLevel, setDifficultyLevel}) => {
         <TouchableOpacity
           style={[
             styles.difficultyButton,
+            {backgroundColor: difficultyLevel === 'medium' ? 'green' : 'gray'},
+          ]}
+          onPress={() => setDifficultyLevel('medium')}>
+          <Text style={{color: '#FFFFFF'}}>Medium</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.difficultyButton,
             {backgroundColor: difficultyLevel === 'hard' ? 'green' : 'gray'},
           ]}
           onPress={() => setDifficultyLevel('hard')}>

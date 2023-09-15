@@ -52,7 +52,7 @@ const Home = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('TicTacToe')}>
+          onPress={() => navigation.navigate('SinglePlayer')}>
           <Text style={styles.buttonText}>Play With AI</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleExit}>
