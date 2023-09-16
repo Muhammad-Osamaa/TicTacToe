@@ -267,7 +267,7 @@ const SinglePlayer = () => {
       <Pressable
         style={{position: 'absolute', top: 10, left: 10}}
         onPress={() => navigation.goBack()}>
-        <Entypo name="chevron-left" size={30} color="#FFE5F1" />
+        <Entypo name="chevron-left" size={30} color="#F73D93" />
       </Pressable>
       <Text style={styles.headerText}>Tic Tac Toe</Text>
       <DifficultyLevel
