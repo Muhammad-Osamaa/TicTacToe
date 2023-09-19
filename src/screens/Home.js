@@ -12,9 +12,14 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ModalView from '../components/ModalView';
+import {useNavigation} from '@react-navigation/native';
 
-const Home = ({navigation}) => {
+const Home = () => {
+  const navigation = useNavigation();
   const [scaleValue] = useState(new Animated.Value(1));
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedDifficulty, setSelectedDifficulty] = useState('easy');
 
   const startRingAnimation = () => {
     Animated.loop(
@@ -36,7 +41,6 @@ const Home = ({navigation}) => {
   };
 
   const ringScale = {transform: [{scale: scaleValue}]};
-
   const handleExit = () => {
     Alert.alert(
       'Exit App',
@@ -53,6 +57,12 @@ const Home = ({navigation}) => {
       ],
       {cancelable: false},
     );
+  };
+  const handleShowModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
   };
 
   useEffect(() => {
@@ -77,7 +87,7 @@ const Home = ({navigation}) => {
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
           <AnimatedTouchableOpacity
-            style={[styles.button, ringScale]}
+            style={[styles.button, styles.buttonWrapper, ringScale]}
             onPress={() => {
               startRingAnimation();
               navigation.navigate('MultiPlayer');
@@ -90,8 +100,14 @@ const Home = ({navigation}) => {
           </AnimatedTouchableOpacity>
           <View style={styles.buttonSpacer} />
           <AnimatedTouchableOpacity
-            style={[styles.button, ringScale]}
-            onPress={() => navigation.navigate('SinglePlayer')}>
+            style={[styles.button, styles.buttonWrapper, ringScale]}
+            onPress={() => {
+              handleShowModal();
+              startRingAnimation();
+              navigation.navigate('SinglePlayer', {
+                difficultyLevel: selectedDifficulty,
+              });
+            }}>
             <View style={styles.buttonContent}>
               <Entypo name="user" size={30} color="#4C0033" />
               <Text style={styles.buttonText}>VS</Text>
@@ -109,6 +125,10 @@ const Home = ({navigation}) => {
           </View>
         </AnimatedTouchableOpacity>
       </View>
+      <ModalView 
+        visible={isModalVisible} 
+        onCloseModal={handleCloseModal}
+        onSelectedDifficulty={(difficulty) => setSelectedDifficulty(difficulty)} />
     </View>
   );
 };
@@ -153,8 +173,9 @@ const styles = StyleSheet.create({
     minWidth: 150,
     minHeight: 40,
     borderWidth: 2,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: '#FF3FA4',
+    borderColor: '#F5B5FC',
     shadowColor: '#FF3FA4',
     shadowOffset: {width: 0, height: 0},
     shadowOpacity: 0.64,
@@ -162,7 +183,10 @@ const styles = StyleSheet.create({
     elevation: 3,
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 20,
+    padding: 10,
+  },
+  buttonWrapper: {
+    marginBottom: 20,
   },
   buttonText: {
     fontFamily: 'Nunito',

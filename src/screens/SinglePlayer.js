@@ -12,16 +12,20 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Board from '../components/Board';
 import DifficultyLevel from '../components/DifficultyLevel';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import ModalView from '../components/ModalView';
 const {width, height} = Dimensions.get('screen');
 const cellSize = Math.min(width, height) / 3.5;
 
 const SinglePlayer = () => {
+  const {route} = useRoute();
+  const {difficultyLevel} = route.params;
   const navigation = useNavigation();
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [winner, setWinner] = useState('');
-  const [difficultyLevel, setDifficultyLevel] = useState('easy');
+  // const [difficultyLevel, setDifficultyLevel] = useState('easy');
   const [isCross, setIsCross] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     if (!isCross && !winner) {
@@ -269,11 +273,11 @@ const SinglePlayer = () => {
         onPress={() => navigation.goBack()}>
         <Entypo name="chevron-left" size={30} color="#F73D93" />
       </Pressable>
-      <Text style={styles.headerText}>Tic Tac Toe</Text>
-      <DifficultyLevel
-        difficultyLevel={difficultyLevel}
+      <Text style={styles.headerText}>Tic Tac Toe {difficultyLevel}</Text>
+      <ModalView
+        visible={isModalVisible}
+        onSelectMode={setIsModalVisible}
         setDifficultyLevel={setDifficultyLevel}
-        style={styles.difficultyLevel}
       />
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
