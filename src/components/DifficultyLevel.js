@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
 
-const DifficultyLevel = ({difficultyLevel, setDifficultyLevel}) => {
+const DifficultyLevel = ({onSelectDifficulty}) => {
   const [localDifficulty, setLocalDifficulty] = useState('easy');
+
   const handleDifficultyChange = value => {
     setLocalDifficulty(value);
-    setDifficultyLevel(value);
+  };
+  const handleOkPress = () => {
+    onSelectDifficulty(localDifficulty);
   };
   return (
     <View style={styles.container}>
@@ -26,7 +29,7 @@ const DifficultyLevel = ({difficultyLevel, setDifficultyLevel}) => {
         thumbStyle={styles.thumbStyle}
         trackStyle={{height: 10}}
         value={
-          difficultyLevel === 'easy' ? 0 : difficultyLevel === 'medium' ? 1 : 2
+          localDifficulty === 'easy' ? 0 : localDifficulty === 'medium' ? 1 : 2
         }
         onValueChange={value => {
           if (value === 0) {
@@ -40,16 +43,11 @@ const DifficultyLevel = ({difficultyLevel, setDifficultyLevel}) => {
       />
 
       {/* Difficulty Buttons */}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: 10,
-        }}>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={[
             styles.difficultyButton,
-            {backgroundColor: difficultyLevel === 'easy' ? 'green' : 'gray'},
+            {backgroundColor: localDifficulty === 'easy' ? 'green' : 'gray'},
           ]}
           onPress={() => handleDifficultyChange('easy')}>
           <Text style={{color: '#FFFFFF'}}>Easy</Text>
@@ -71,18 +69,19 @@ const DifficultyLevel = ({difficultyLevel, setDifficultyLevel}) => {
           <Text style={{color: '#FFFFFF'}}>Hard</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.okButton}>
-        <Text style={{color: '#FFFFFF'}}>Ok</Text>
+      <TouchableOpacity style={styles.okButton} onPress={handleOkPress}>
+        <Text style={{color: '#FFFFFF'}}>Okay</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  difficultyButton: {
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 20,
+  container: {
+    backgroundColor: '#4C0033',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
   },
   header: {
     fontSize: 20,
@@ -94,20 +93,32 @@ const styles = StyleSheet.create({
     fontSize: 32,
     textAlign: 'center',
     marginTop: 20,
-    color: 'red'
+    color: 'red',
   },
   slider: {
     width: '80%',
     alignSelf: 'center',
     marginTop: 20,
   },
-  thumbStyle:{
+  thumbStyle: {
     width: 30,
     height: 80,
     backgroundColor: '#6ED4E8',
     borderRadius: 15,
     borderWidth: 2,
     borderColor: 'white',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  difficultyButton: {
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+    flex: 1,
+    marginHorizontal: 5,
   },
   okButton: {
     backgroundColor: 'blue',

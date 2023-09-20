@@ -64,7 +64,13 @@ const Home = () => {
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
-
+  const handleDifficultySelect = difficulty => {
+    setSelectedDifficulty(difficulty);
+    handleCloseModal();
+    navigation.navigate('SinglePlayer', {
+      difficultyLevel: difficulty,
+    });
+  };
   useEffect(() => {
     const backAction = () => {
       handleExit();
@@ -101,13 +107,7 @@ const Home = () => {
           <View style={styles.buttonSpacer} />
           <AnimatedTouchableOpacity
             style={[styles.button, styles.buttonWrapper, ringScale]}
-            onPress={() => {
-              handleShowModal();
-              startRingAnimation();
-              navigation.navigate('SinglePlayer', {
-                difficultyLevel: selectedDifficulty,
-              });
-            }}>
+            onPress={handleShowModal}>
             <View style={styles.buttonContent}>
               <Entypo name="user" size={30} color="#4C0033" />
               <Text style={styles.buttonText}>VS</Text>
@@ -125,10 +125,12 @@ const Home = () => {
           </View>
         </AnimatedTouchableOpacity>
       </View>
-      <ModalView 
-        visible={isModalVisible} 
+      <ModalView
+        visible={isModalVisible}
         onCloseModal={handleCloseModal}
-        onSelectedDifficulty={(difficulty) => setSelectedDifficulty(difficulty)} />
+        onSelectDifficulty={handleDifficultySelect}
+        selectedDifficulty={selectedDifficulty}
+      />
     </View>
   );
 };

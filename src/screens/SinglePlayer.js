@@ -18,18 +18,45 @@ const {width, height} = Dimensions.get('screen');
 const cellSize = Math.min(width, height) / 3.5;
 
 const SinglePlayer = () => {
-  const {route} = useRoute();
-  const {difficultyLevel} = route.params;
+  const {params} = useRoute();
+  const inititalDifficulty =
+    params && params.difficultyLevel ? params.difficultyLevel : 'easy';
+  const initialBoardState = {
+    easy: [
+      'question',
+      'circle',
+      'question',
+      'question',
+      'cross',
+      'question',
+      'question',
+      'circle',
+      'question',
+    ],
+    medium: Array(9).fill('question'),
+    hard: Array(9).fill('question'),
+  }[inititalDifficulty];
   const navigation = useNavigation();
-  const [board, setBoard] = useState(Array(9).fill('question'));
+  const [board, setBoard] = useState(initialBoardState);
   const [winner, setWinner] = useState('');
-  // const [difficultyLevel, setDifficultyLevel] = useState('easy');
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState(inititalDifficulty);
   const [isCross, setIsCross] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(true);
+
+  const startGame = () => {
+    setIsModalVisible(false);
+  };
+
+  useEffect(() => {
+    if (selectedDifficulty) {
+      setIsModalVisible(false);
+    }
+  }, [selectedDifficulty]);
 
   useEffect(() => {
     if (!isCross && !winner) {
-      if (difficultyLevel === 'easy') {
+      if (selectedDifficulty === 'easy' || selectedDifficulty === 'medium') {
         const emptyCells = board.reduce((acc, cell, index) => {
           if (cell === 'question') {
             acc.push(index);
@@ -43,21 +70,21 @@ const SinglePlayer = () => {
           const col = randomIndex % 3;
           drawItem(row, col);
         }
-      } else if (difficultyLevel === 'medium') {
-        const emptyCells = board.reduce((acc, cell, index) => {
-          if (cell === 'question') {
-            acc.push(index);
-          }
-          return acc;
-        }, []);
-        if (emptyCells.length > 0) {
-          const randomIndex =
-            emptyCells[Math.floor(Math.random() * emptyCells.length)];
-          const row = Math.floor(randomIndex / 3);
-          const col = randomIndex % 3;
-          drawItem(row, col);
-        }
-      } else if (difficultyLevel === 'hard') {
+        // } else if (selectedDifficulty === 'medium') {
+        //   const emptyCells = board.reduce((acc, cell, index) => {
+        //     if (cell === 'question') {
+        //       acc.push(index);
+        //     }
+        //     return acc;
+        //   }, []);
+        //   if (emptyCells.length > 0) {
+        //     const randomIndex =
+        //       emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        //     const row = Math.floor(randomIndex / 3);
+        //     const col = randomIndex % 3;
+        //     drawItem(row, col);
+        //   }
+      } else if (selectedDifficulty === 'hard') {
         // Implement AI move logic for 'hard' difficulty
         setTimeout(() => {
           const bestMove = minimax(board, 'circle', false);
@@ -65,7 +92,7 @@ const SinglePlayer = () => {
         }, 500);
       }
     }
-  }, [board, isCross, winner, difficultyLevel]);
+  }, [board, isCross, winner, selectedDifficulty]);
   const minimax = (currentBoard, player, isMaximizing) => {
     const availableCells = currentBoard.reduce((acc, cell, index) => {
       if (cell === 'question') {
@@ -269,15 +296,19 @@ const SinglePlayer = () => {
   return (
     <View style={styles.container}>
       <Pressable
-        style={{position: 'absolute', top: 10, left: 10}}
+        style={{position: 'absolute', top: 20, left: 20}}
         onPress={() => navigation.goBack()}>
-        <Entypo name="chevron-left" size={30} color="#F73D93" />
+        <Entypo name="chevron-left" size={28} color="#F73D93" />
       </Pressable>
-      <Text style={styles.headerText}>Tic Tac Toe {difficultyLevel}</Text>
+      <Text style={styles.headerText}>Tic Tac Toe {selectedDifficulty}</Text>
       <ModalView
         visible={isModalVisible}
-        onSelectMode={setIsModalVisible}
-        setDifficultyLevel={setDifficultyLevel}
+        onCloseModal={() => setIsModalVisible(false)}
+        onSelectDifficulty={difficulty => {
+          setSelectedDifficulty(difficulty);
+          startGame();
+        }}
+        difficultyLevel={selectedDifficulty}
       />
       <View style={styles.board}>
         {[0, 1, 2].map(row => (

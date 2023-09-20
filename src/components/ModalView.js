@@ -1,22 +1,54 @@
-import React, {useState} from 'react';
-import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  Easing,
+} from 'react-native';
 import DifficultyLevel from './DifficultyLevel';
 
-const ModalView = ({visible, onCloseModal, onSelectDifficulty}) => {
-  const [localDifficulty, setLocalDifficulty] = useState('easy');
+const ModalView = ({
+  visible,
+  onCloseModal,
+  onSelectDifficulty,
+  difficultyLevel,
+}) => {
   return (
     <Modal
       transparent={true}
-      animationType="fade"
+      animationType="slide"
       visible={visible}
       onRequestClose={onCloseModal}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.secondModalContent}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#EDB7ED',
+                position: 'absolute',
+                right: -20,
+                top: -20,
+                borderRadius: 80,
+                width: '15%',
+                borderWidth: 4,
+                borderColor: '#FF3FA4',
+              }}>
+              <Text
+                style={{
+                  color: '#FF3FA4',
+                  fontSize: 30,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}>
+                X
+              </Text>
+            </TouchableOpacity>
             <DifficultyLevel
-              difficultyLevel={localDifficulty}
-              setDifficultyLevel={setLocalDifficulty}
-              onSelectDifficulty={difficulty => {
+              difficultyLevel={difficultyLevel}
+              setDifficultyLevel={difficulty => {
                 onSelectDifficulty(difficulty);
                 onCloseModal();
               }}
@@ -33,21 +65,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
     backgroundColor: '#EDB7ED',
-    padding: 2,
+    padding: 5,
     borderRadius: 10,
     borderColor: '#FF3FA4',
-    borderWidth: 1,
+    borderWidth: 1.5,
     alignItems: 'center',
   },
   secondModalContent: {
     backgroundColor: '#4C0033',
-    padding: 100,
+    padding: 40,
     borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#FF3FA4',
   },
   modalText: {
@@ -56,12 +88,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modalButton: {
-    backgroundColor: '#2B2B52',
     padding: 10,
     borderRadius: 5,
     marginVertical: 5,
-    width: 120,
     alignItems: 'center',
+    borderColor: '#FF3FA4',
+    borderWidth: 2,
   },
   buttonText: {
     color: 'white',
