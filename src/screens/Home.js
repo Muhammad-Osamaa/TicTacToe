@@ -99,9 +99,9 @@ const Home = () => {
               navigation.navigate('MultiPlayer');
             }}>
             <View style={styles.buttonContent}>
-              <Entypo name="user" size={30} color="#4C0033" />
+              <Entypo name="user" size={30} color="#10316B" />
               <Text style={styles.buttonText}>VS</Text>
-              <Entypo name="user" size={30} color="#4C0033" />
+              <Entypo name="user" size={30} color="#10316B" />
             </View>
           </AnimatedTouchableOpacity>
           <View style={styles.buttonSpacer} />
@@ -109,9 +109,9 @@ const Home = () => {
             style={[styles.button, styles.buttonWrapper, ringScale]}
             onPress={handleShowModal}>
             <View style={styles.buttonContent}>
-              <Entypo name="user" size={30} color="#4C0033" />
+              <Entypo name="user" size={30} color="#10316B" />
               <Text style={styles.buttonText}>VS</Text>
-              <Foundation name="laptop" size={30} color="#4C0033" />
+              <Foundation name="laptop" size={30} color="#10316B" />
             </View>
           </AnimatedTouchableOpacity>
         </View>
@@ -120,7 +120,7 @@ const Home = () => {
           style={[styles.button, ringScale]}
           onPress={handleExit}>
           <View style={styles.buttonContent}>
-            <MaterialIcons name="exit-to-app" size={30} color="#4C0033" />
+            <MaterialIcons name="exit-to-app" size={30} color="#10316B" />
             <Text style={styles.buttonText}>Exit</Text>
           </View>
         </AnimatedTouchableOpacity>
@@ -141,7 +141,7 @@ const AnimatedTouchableOpacity =
 const styles = StyleSheet.create({
   container: {
     flex: 3,
-    backgroundColor: '#4C0033',
+    backgroundColor: '#10316B',
   },
   header: {
     flex: 1,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 48,
-    color: '#F73D93',
+    color: '#C7EEFF',
   },
   buttonContainer: {
     flex: 1,
@@ -176,9 +176,9 @@ const styles = StyleSheet.create({
     minHeight: 40,
     borderWidth: 2,
     borderRadius: 5,
-    backgroundColor: '#FF3FA4',
-    borderColor: '#F5B5FC',
-    shadowColor: '#FF3FA4',
+    backgroundColor: '#C7EEFF',
+    borderColor: '#0077C0',
+    shadowColor: '#b3bba8',
     shadowOffset: {width: 0, height: 0},
     shadowOpacity: 0.64,
     shadowRadius: 20,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 1.3,
     fontWeight: '700',
-    color: '#313133',
+    color: '#10316B',
   },
 });
 

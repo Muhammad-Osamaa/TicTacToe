@@ -138,9 +138,9 @@ const MultiPlayer = () => {
       <Pressable
         style={{position: 'absolute', top: 10, left: 10}}
         onPress={() => navigation.goBack()}>
-        <Entypo name="chevron-left" size={30} color="#F73D93" />
+        <Entypo name="chevron-left" size={30} color="#C7EEFF" />
       </Pressable>
-      <Text style={{color: '#F73D93', fontSize: 30, padding: 30, marginTop: 5}}>
+      <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
         Tic Tac Toe
       </Text>
       <View style={styles.board}>
@@ -184,7 +184,7 @@ const MultiPlayer = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4C0033',
+    backgroundColor: '#10316B',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -25,27 +25,11 @@ const ModalView = ({
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.secondModalContent}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#EDB7ED',
-                position: 'absolute',
-                right: -20,
-                top: -20,
-                borderRadius: 80,
-                width: '15%',
-                borderWidth: 4,
-                borderColor: '#FF3FA4',
-              }}>
-              <Text
-                style={{
-                  color: '#FF3FA4',
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                }}>
-                X
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.closeButtonContainer}>
+              <TouchableOpacity style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>X</Text>
+              </TouchableOpacity>
+            </View>
             <DifficultyLevel
               difficultyLevel={difficultyLevel}
               setDifficultyLevel={difficulty => {
@@ -68,19 +52,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
-    backgroundColor: '#EDB7ED',
+    backgroundColor: '#C7EEFF',
     padding: 5,
     borderRadius: 10,
-    borderColor: '#FF3FA4',
+    borderColor: '#0077C0',
     borderWidth: 1.5,
     alignItems: 'center',
   },
   secondModalContent: {
-    backgroundColor: '#4C0033',
+    backgroundColor: '#10316B',
     padding: 40,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#FF3FA4',
+    borderColor: '#0077C0',
   },
   modalText: {
     fontSize: 18,
@@ -98,6 +82,36 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  closeButtonContainer: {
+    backgroundColor: '#C7EEFF',
+    position: 'absolute',
+    borderRadius: 50,
+    width: 66,
+    height: 66,
+    right: -33,
+    top: -33,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButton: {
+    backgroundColor: '#0077C0',
+    position: 'absolute',
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    borderWidth: 3,
+    borderColor: '#0077C0',
+    top: 8,
+    right: 8,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  closeButtonText: {
+    color: '#C7EEFF',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

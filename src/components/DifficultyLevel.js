@@ -78,7 +78,7 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#4C0033',
+    backgroundColor: '#10316B',
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
