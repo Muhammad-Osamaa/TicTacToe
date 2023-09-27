@@ -1,13 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-  Easing,
-} from 'react-native';
+import React from 'react';
+import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
 import DifficultyLevel from './DifficultyLevel';
 
 const ModalView = ({
@@ -26,7 +18,9 @@ const ModalView = ({
         <View style={styles.modalContent}>
           <View style={styles.secondModalContent}>
             <View style={styles.closeButtonContainer}>
-              <TouchableOpacity style={styles.closeButton}>
+              <TouchableOpacity
+                onPress={onCloseModal}
+                style={styles.closeButton}>
                 <Text style={styles.closeButtonText}>X</Text>
               </TouchableOpacity>
             </View>
@@ -87,29 +81,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#C7EEFF',
     position: 'absolute',
     borderRadius: 50,
-    width: 66,
-    height: 66,
-    right: -33,
-    top: -33,
+    width: 62,
+    height: 62,
+    right: -25,
+    top: -25,
+    borderColor: '#0077C0',
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
   closeButton: {
-    backgroundColor: '#0077C0',
+    backgroundColor: '#10316B',
     position: 'absolute',
     borderRadius: 50,
     width: 50,
     height: 50,
-    borderWidth: 3,
+    borderWidth: 1.5,
     borderColor: '#0077C0',
-    top: 8,
-    right: 8,
+    top: 4,
+    right: 4,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   closeButtonText: {
     color: '#C7EEFF',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
   },

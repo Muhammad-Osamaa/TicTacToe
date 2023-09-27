@@ -99,9 +99,9 @@ const Home = () => {
               navigation.navigate('MultiPlayer');
             }}>
             <View style={styles.buttonContent}>
-              <Entypo name="user" size={30} color="#10316B" />
-              <Text style={styles.buttonText}>VS</Text>
-              <Entypo name="user" size={30} color="#10316B" />
+              <Entypo name="user" size={30} color="#C7EEFF" />
+              <Text style={styles.buttonText}>VS </Text>
+              <Entypo name="user" size={30} color="#C7EEFF" />
             </View>
           </AnimatedTouchableOpacity>
           <View style={styles.buttonSpacer} />
@@ -109,9 +109,9 @@ const Home = () => {
             style={[styles.button, styles.buttonWrapper, ringScale]}
             onPress={handleShowModal}>
             <View style={styles.buttonContent}>
-              <Entypo name="user" size={30} color="#10316B" />
-              <Text style={styles.buttonText}>VS</Text>
-              <Foundation name="laptop" size={30} color="#10316B" />
+              <Entypo name="user" size={30} color="#C7EEFF" />
+              <Text style={styles.buttonText}>VS </Text>
+              <Foundation name="laptop" size={30} color="#C7EEFF" />
             </View>
           </AnimatedTouchableOpacity>
         </View>
@@ -120,7 +120,7 @@ const Home = () => {
           style={[styles.button, ringScale]}
           onPress={handleExit}>
           <View style={styles.buttonContent}>
-            <MaterialIcons name="exit-to-app" size={30} color="#10316B" />
+            <MaterialIcons name="exit-to-app" size={30} color="#C7EEFF" />
             <Text style={styles.buttonText}>Exit</Text>
           </View>
         </AnimatedTouchableOpacity>
@@ -170,11 +170,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    backgroundColor: '#10316B',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderColor: '#0077C0',
+    borderWidth: 1,
+    borderRadius: 5
   },
   button: {
-    minWidth: 150,
-    minHeight: 40,
-    borderWidth: 2,
+    // minWidth: 40,
+    // minHeight: 10,
+    paddingHorizontal: 2,
+    paddingVertical: 2,
+    borderWidth: 1,
     borderRadius: 5,
     backgroundColor: '#C7EEFF',
     borderColor: '#0077C0',
@@ -185,18 +193,18 @@ const styles = StyleSheet.create({
     elevation: 3,
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 10,
+    padding: 5,
   },
   buttonWrapper: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   buttonText: {
     fontFamily: 'Nunito',
     fontSize: 22,
     textTransform: 'uppercase',
-    letterSpacing: 1.3,
-    fontWeight: '700',
-    color: '#10316B',
+    letterSpacing: 1.4,
+    fontWeight: '600',
+    color: '#C7EEFF',
   },
 });
 

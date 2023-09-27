@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const DifficultyLevel = ({onSelectDifficulty}) => {
   const [localDifficulty, setLocalDifficulty] = useState('easy');
@@ -15,8 +16,12 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
     <View style={styles.container}>
       <Text style={styles.header}>Difficulty Level</Text>
 
-      {/* Emoji */}
-      <Text style={styles.emoji}>😊</Text>
+      <Entypo
+        name="emoji-happy"
+        size={70}
+        color="#C7EEFF"
+        style={styles.emoji}
+      />
 
       {/* Slider */}
       <Slider
@@ -27,7 +32,7 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
         minimumTrackTintColor="#6ED4E8"
         thumbTintColor="#6ED4E8"
         thumbStyle={styles.thumbStyle}
-        trackStyle={{height: 10}}
+        trackStyle={{height: 40}}
         value={
           localDifficulty === 'easy' ? 0 : localDifficulty === 'medium' ? 1 : 2
         }
@@ -41,37 +46,11 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
           }
         }}
       />
-
-      {/* Difficulty Buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[
-            styles.difficultyButton,
-            {backgroundColor: localDifficulty === 'easy' ? 'green' : 'gray'},
-          ]}
-          onPress={() => handleDifficultyChange('easy')}>
-          <Text style={{color: '#FFFFFF'}}>Easy</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.difficultyButton,
-            {backgroundColor: localDifficulty === 'medium' ? 'green' : 'gray'},
-          ]}
-          onPress={() => handleDifficultyChange('medium')}>
-          <Text style={{color: '#FFFFFF'}}>Medium</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.difficultyButton,
-            {backgroundColor: localDifficulty === 'hard' ? 'green' : 'gray'},
-          ]}
-          onPress={() => handleDifficultyChange('hard')}>
-          <Text style={{color: '#FFFFFF'}}>Hard</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Okay</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.okButton} onPress={handleOkPress}>
-        <Text style={{color: '#FFFFFF'}}>Okay</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -79,53 +58,58 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#10316B',
-    padding: 20,
+    paddingVertical: 10,
     borderRadius: 10,
     alignItems: 'center',
   },
   header: {
-    fontSize: 20,
-    color: '#FDE5EC',
+    fontSize: 24,
+    color: '#C7EEFF',
     fontFamily: 'sans-serif-thin',
     fontWeight: 'bold',
-  },
-  emoji: {
-    fontSize: 32,
-    textAlign: 'center',
-    marginTop: 20,
-    color: 'red',
+    top: -45,
+    left: -5,
+    position: 'relative',
   },
   slider: {
     width: '80%',
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 30,
   },
   thumbStyle: {
-    width: 30,
-    height: 80,
-    backgroundColor: '#6ED4E8',
+    width: 10,
+    height: 10,
+    backgroundColor: 'red',
     borderRadius: 15,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: 'white',
+    fontSize: 'bold',
+  },
+  emoji: {
+    marginTop: -40,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
+    backgroundColor: '#279EFF',
+    paddingHorizontal: 2,
+    paddingVertical: 2,
+    borderRadius: 10,
   },
-  difficultyButton: {
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 20,
-    flex: 1,
-    marginHorizontal: 5,
+  button: {
+    backgroundColor: '#279EFF',
+    borderRadius: 12,
+    borderWidth: 3,
+    borderColor: '#C7EEFF',
+    paddingHorizontal: 2,
+    paddingVertical: 2,
   },
-  okButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    alignSelf: 'center',
-    marginTop: 20,
+  buttonText: {
+    backgroundColor: '#10316B',
+    color: '#C7EEFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingHorizontal: 35,
+    paddingVertical: 10,
+    borderRadius: 6,
   },
 });
 export default DifficultyLevel;
