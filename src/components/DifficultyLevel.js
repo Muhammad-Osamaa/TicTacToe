@@ -8,7 +8,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   const [textColor, setTextColor] = useState('#C7EEFF');
 
   useEffect(() => {
-    setLocalDifficulty(selectedDifficulty);
+    setLocalDifficulty('Easy');
   }, [selectedDifficulty]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
     setLocalDifficulty(value);
   };
   const handleOkPress = () => {
-    onSelectDifficulty(localDifficulty);
+    navigation.navigate('board');
   };
   const emojiColor =
     localDifficulty === 'Easy'
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#279EFF',
     borderRadius: 12,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: '#C7EEFF',
     paddingHorizontal: 2,
     paddingVertical: 2,

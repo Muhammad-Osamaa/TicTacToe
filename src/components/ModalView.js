@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
 import DifficultyLevel from './DifficultyLevel';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const ModalView = ({
   visible,
@@ -21,7 +22,7 @@ const ModalView = ({
               <TouchableOpacity
                 onPress={onCloseModal}
                 style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>X</Text>
+                <Entypo size={30} name="circle-with-cross" color="#C7EEFF" />
               </TouchableOpacity>
             </View>
             <DifficultyLevel
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C7EEFF',
     padding: 5,
     borderRadius: 10,
-    borderColor: '#0077C0',
+    borderColor: '#279EFF',
     borderWidth: 1.5,
     alignItems: 'center',
   },
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     padding: 40,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#0077C0',
+    borderColor: '#279EFF',
   },
   modalText: {
     fontSize: 18,
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     height: 62,
     right: -25,
     top: -25,
-    borderColor: '#0077C0',
+    borderColor: '#279EFF',
     borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -96,8 +97,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 50,
     height: 50,
-    borderWidth: 1.5,
-    borderColor: '#0077C0',
+    borderWidth: 2,
+    borderColor: '#279EFF',
     top: 4,
     right: 4,
     justifyContent: 'center',

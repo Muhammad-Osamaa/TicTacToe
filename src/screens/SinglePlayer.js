@@ -18,6 +18,7 @@ const {width, height} = Dimensions.get('screen');
 const cellSize = Math.min(width, height) / 3.5;
 
 const SinglePlayer = () => {
+  const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const {params} = useRoute();
   const inititalDifficulty =
     params && params.difficultyLevel ? params.difficultyLevel : 'easy';
@@ -39,20 +40,18 @@ const SinglePlayer = () => {
   }[inititalDifficulty];
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [winner, setWinner] = useState('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [isCross, setIsCross] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(true);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
-  const startGame = () => {
-    setIsModalVisible(false);
-    setIsGameStarted(true);
-  };
   const handleDifficultySelect = difficulty => {
     setSelectedDifficulty(difficulty);
     startGame();
   };
-
+  const startGame = () => {
+    setIsModalVisible(false);
+    setIsGameStarted(true);
+  };
   // useEffect(() => {
   //   if (selectedDifficulty) {
   //     startGame();

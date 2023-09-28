@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#4C0033',
+    backgroundColor: '#10316B',
   },
   main: {
     flex: 1,
