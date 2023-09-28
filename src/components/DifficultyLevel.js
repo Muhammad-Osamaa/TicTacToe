@@ -1,10 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const DifficultyLevel = ({onSelectDifficulty}) => {
-  const [localDifficulty, setLocalDifficulty] = useState('easy');
+const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
+  const [localDifficulty, setLocalDifficulty] = useState('Easy');
+  const [textColor, setTextColor] = useState('#C7EEFF');
+
+  useEffect(() => {
+    setLocalDifficulty(selectedDifficulty);
+  }, [selectedDifficulty]);
+
+  useEffect(() => {
+    if (localDifficulty === 'Easy') {
+      setTextColor('#C7EEFF');
+    } else if (localDifficulty === 'Medium') {
+      setTextColor('#FFBB5C');
+    } else {
+      setTextColor('red');
+    }
+  }, [localDifficulty]);
 
   const handleDifficultyChange = value => {
     setLocalDifficulty(value);
@@ -12,6 +27,18 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
   const handleOkPress = () => {
     onSelectDifficulty(localDifficulty);
   };
+  const emojiColor =
+    localDifficulty === 'Easy'
+      ? '#C7EEFF'
+      : localDifficulty === 'Medium'
+      ? '#FFBB5C'
+      : '#FF4500';
+  const sliderTrackColor =
+    localDifficulty === 'Easy'
+      ? '#C7EEFF'
+      : localDifficulty === 'Medium'
+      ? '#FFBB5C'
+      : '#FF4500';
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Difficulty Level</Text>
@@ -19,7 +46,7 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
       <Entypo
         name="emoji-happy"
         size={70}
-        color="#C7EEFF"
+        color={emojiColor}
         style={styles.emoji}
       />
 
@@ -29,25 +56,28 @@ const DifficultyLevel = ({onSelectDifficulty}) => {
         minimumValue={0}
         maximumValue={2}
         step={1}
-        minimumTrackTintColor="#6ED4E8"
-        thumbTintColor="#6ED4E8"
+        minimumTrackTintColor={sliderTrackColor}
+        thumbTintColor={sliderTrackColor}
         thumbStyle={styles.thumbStyle}
         trackStyle={{height: 40}}
         value={
-          localDifficulty === 'easy' ? 0 : localDifficulty === 'medium' ? 1 : 2
+          localDifficulty === 'Easy' ? 0 : localDifficulty === 'Medium' ? 1 : 2
         }
         onValueChange={value => {
           if (value === 0) {
-            handleDifficultyChange('easy');
+            handleDifficultyChange('Easy');
           } else if (value === 1) {
-            handleDifficultyChange('medium');
+            handleDifficultyChange('Medium');
           } else {
-            handleDifficultyChange('hard');
+            handleDifficultyChange('Hard');
           }
         }}
       />
+      <Text style={[styles.difficultyText, {color: textColor}]}>
+        {localDifficulty}
+      </Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleOkPress}>
           <Text style={styles.buttonText}>Okay</Text>
         </TouchableOpacity>
       </View>
@@ -82,17 +112,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: 'red',
     fontSize: 'bold',
   },
   emoji: {
     marginTop: -40,
+  },
+  difficultyText: {
+    color: '#C7EEFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
   buttonContainer: {
     backgroundColor: '#279EFF',
     paddingHorizontal: 2,
     paddingVertical: 2,
     borderRadius: 10,
+    bottom: -35,
   },
   button: {
     backgroundColor: '#279EFF',

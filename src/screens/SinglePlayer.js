@@ -21,6 +21,7 @@ const SinglePlayer = () => {
   const {params} = useRoute();
   const inititalDifficulty =
     params && params.difficultyLevel ? params.difficultyLevel : 'easy';
+  const navigation = useNavigation();
   const initialBoardState = {
     easy: [
       'question',
@@ -36,23 +37,27 @@ const SinglePlayer = () => {
     medium: Array(9).fill('question'),
     hard: Array(9).fill('question'),
   }[inititalDifficulty];
-  const navigation = useNavigation();
-  const [board, setBoard] = useState(initialBoardState);
+  const [board, setBoard] = useState(Array(9).fill('question'));
   const [winner, setWinner] = useState('');
-  const [selectedDifficulty, setSelectedDifficulty] =
-    useState(inititalDifficulty);
+  const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [isCross, setIsCross] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(true);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   const startGame = () => {
     setIsModalVisible(false);
+    setIsGameStarted(true);
+  };
+  const handleDifficultySelect = difficulty => {
+    setSelectedDifficulty(difficulty);
+    startGame();
   };
 
-  useEffect(() => {
-    if (selectedDifficulty) {
-      setIsModalVisible(false);
-    }
-  }, [selectedDifficulty]);
+  // useEffect(() => {
+  //   if (selectedDifficulty) {
+  //     startGame();
+  //   }
+  // }, [selectedDifficulty]);
 
   useEffect(() => {
     if (!isCross && !winner) {
@@ -301,11 +306,20 @@ const SinglePlayer = () => {
         <Entypo name="chevron-left" size={28} color="#F73D93" />
       </Pressable>
       <Text style={styles.headerText}>Tic Tac Toe {selectedDifficulty}</Text>
+      {isGameStarted ? (
+        <Board board={board} drawItem={drawItem} cellSize={cellSize} />
+      ) : (
+        <DifficultyLevel
+          onSelectDifficulty={handleDifficultySelect}
+          selectedDifficulty={selectedDifficulty}
+        />
+      )}
       <ModalView
         visible={isModalVisible}
         onCloseModal={() => setIsModalVisible(false)}
         onSelectDifficulty={difficulty => {
           setSelectedDifficulty(difficulty);
+          handleDifficultySelect(difficulty);
           startGame();
         }}
         difficultyLevel={selectedDifficulty}
@@ -339,14 +353,6 @@ const SinglePlayer = () => {
           </View>
         ))}
       </View>
-      <TouchableOpacity style={styles.resetButton} onPress={resetGame}>
-        <MaterialCommunityIcons
-          name="restart-alert"
-          size={22}
-          color="#2B2B52"
-        />
-        <Text style={styles.buttonText}>Restart Game</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -385,6 +391,15 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#2B2B52',
     fontSize: 15,
+  },
+  startButton: {
+    marginTop: 20,
+    flexDirection: 'row',
+    padding: 10,
+    backgroundColor: '#7ae582',
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 export default SinglePlayer;
