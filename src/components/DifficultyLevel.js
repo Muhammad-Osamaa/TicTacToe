@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {useNavigation} from '@react-navigation/native';
 
 const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   const [localDifficulty, setLocalDifficulty] = useState('Easy');
   const [textColor, setTextColor] = useState('#C7EEFF');
-
+  const navigation = useNavigation();
   useEffect(() => {
     setLocalDifficulty('Easy');
   }, [selectedDifficulty]);
