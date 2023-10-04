@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {Entypo} from 'react-native-vector-icons/Entypo';
 
 const Board = ({board, drawItem, cellSize}) => {
   const chooseItemColor = (row, col) => {
@@ -26,7 +26,7 @@ const Board = ({board, drawItem, cellSize}) => {
                 borderColor: '#2B2B52',
               }}
               onPress={() => drawItem(row, col)}>
-              {board[row * 3 + col] === 'question' ? (
+              {board[row * 3 + col] && board[row * 3 + col] === 'question' ? (
                 <Text
                   style={{
                     fontSize: cellSize / 2,

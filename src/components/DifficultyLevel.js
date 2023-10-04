@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import Board from './Board';
 
 const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   const [localDifficulty, setLocalDifficulty] = useState('Easy');
@@ -26,7 +27,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
     setLocalDifficulty(value);
   };
   const handleOkPress = () => {
-    navigation.navigate('board');
+    navigation.navigate('Board');
   };
   const emojiColor =
     localDifficulty === 'Easy'
