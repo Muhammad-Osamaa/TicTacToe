@@ -9,7 +9,6 @@ import {
   Pressable,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Board from '../components/Board';
 import DifficultyLevel from '../components/DifficultyLevel';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -38,11 +37,21 @@ const SinglePlayer = () => {
     medium: Array(9).fill('question'),
     hard: Array(9).fill('question'),
   }[inititalDifficulty];
-  const [board, setBoard] = useState(Array(9).fill('question'));
+  const [board, setBoard] = useState([
+    'question',
+    'question',
+    'question',
+    'question',
+    'question',
+    'question',
+    'question',
+    'question',
+    'question',
+  ]);
   const [winner, setWinner] = useState('');
   const [isCross, setIsCross] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(true);
-  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(true);
 
   const handleDifficultySelect = difficulty => {
     setSelectedDifficulty(difficulty);
@@ -202,6 +211,7 @@ const SinglePlayer = () => {
         );
       } else {
         setBoard(newBoard);
+        console.log('new board=====>>>>', newBoard);
         setIsCross(!isCross);
       }
     }
@@ -278,20 +288,20 @@ const SinglePlayer = () => {
       return '';
     }
   };
-  useEffect(() => {
-    setBoard([
-      'cross',
-      'circle',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-      'question',
-    ]);
-    resetGame();
-  }, []);
+  // useEffect(() => {
+  //   setBoard([
+  //     'cross',
+  //     'circle',
+  //     'question',
+  //     'question',
+  //     'question',
+  //     'question',
+  //     'question',
+  //     'question',
+  //     'question',
+  //   ]);
+  //   resetGame();
+  // }, []);
   // useEffect(() => {
   //   if (winner !== '') {
   //     Alert.alert(winner + 'Won The Game');

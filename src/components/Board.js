@@ -5,11 +5,11 @@ import {Entypo} from 'react-native-vector-icons/Entypo';
 const Board = ({board, drawItem, cellSize}) => {
   const chooseItemColor = (row, col) => {
     const index = row * 3 + col;
-    if (board[index] === 'cross') return '#FF3031';
-    else if (board[index] === 'circle') return '#45CE30';
+    if (board && board[index] === 'cross') return '#FF3031';
+    else if (board && board[index] === 'circle') return '#45CE30';
     return '#74B9FF';
   };
-
+  console.log('board ====>>', board);
   return (
     <View>
       {[0, 1, 2].map(row => (
@@ -26,7 +26,7 @@ const Board = ({board, drawItem, cellSize}) => {
                 borderColor: '#2B2B52',
               }}
               onPress={() => drawItem(row, col)}>
-              {board[row * 3 + col] && board[row * 3 + col] === 'question' ? (
+              {board && board[row * 3 + col] === 'question' ? (
                 <Text
                   style={{
                     fontSize: cellSize / 2,
@@ -36,7 +36,7 @@ const Board = ({board, drawItem, cellSize}) => {
                 </Text>
               ) : (
                 <Entypo
-                  name={board[row * 3 + col]}
+                  name={board && board[row * 3 + col]}
                   size={cellSize / 2}
                   color={chooseItemColor(row, col)}
                 />
