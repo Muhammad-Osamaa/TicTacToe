@@ -1,16 +1,30 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, Pressable, BackHandler} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const HardPlaying = () => {
   const navigation = useNavigation();
+
+  const handleHardwareBackPress = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleHardwareBackPress,
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
   return (
     <View style={styles.container}>
       <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
         <Entypo name="chevron-left" size={30} color="#C7EEFF" />
       </Pressable>
-      <Text style={styles.text}>Medium Mode</Text>
+      <Text style={styles.text}>Hard Mode</Text>
     </View>
   );
 };
@@ -19,7 +33,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#10316B',
     paddingVertical: 10,
     borderRadius: 10,
-    borderTopLeftRadiusorder: 0,
     alignItems: 'center',
   },
   backButton: {
