@@ -14,6 +14,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ModalView from '../components/ModalView';
 import {useNavigation} from '@react-navigation/native';
+import MultiPlayer from './MultiPlayer';
 
 const Home = () => {
   const navigation = useNavigation();
