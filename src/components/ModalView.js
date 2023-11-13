@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Modal, TouchableOpacity, StyleSheet} from 'react-native';
 import DifficultyLevel from './DifficultyLevel';
 import Entypo from 'react-native-vector-icons/Entypo';
 
