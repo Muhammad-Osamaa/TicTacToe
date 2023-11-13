@@ -4,7 +4,6 @@ import Slider from '@react-native-community/slider';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 
-
 const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   const [localDifficulty, setLocalDifficulty] = useState('Easy');
   const [textColor, setTextColor] = useState('#C7EEFF');
@@ -28,11 +27,11 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   };
   const handleOkPress = () => {
     if (localDifficulty === 'Easy') {
-      navigation.navigate('EasyPlaying');
+      navigation.replace('EasyPlaying');
     } else if (localDifficulty === 'Medium') {
-      navigation.navigate('MediumPlaying');
+      navigation.replace('MediumPlaying');
     } else if (localDifficulty === 'Hard') {
-      navigation.navigate('HardPlaying');
+      navigation.replace('HardPlaying');
     }
   };
   const emojiColor =

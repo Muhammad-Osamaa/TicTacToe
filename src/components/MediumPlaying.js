@@ -7,7 +7,9 @@ const MediumPlaying = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
+      <Pressable
+        style={styles.backButton}
+        onPress={() => navigation.navigate('Home')}>
         <Entypo name="chevron-left" size={30} color="#C7EEFF" />
       </Pressable>
       <Text style={styles.text}>Medium Mode</Text>

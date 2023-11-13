@@ -7,7 +7,9 @@ const EasyPlaying = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
+      <Pressable
+        style={styles.backButton}
+        onPress={() => navigation.navigate('Home')}>
         <Entypo name="chevron-left" size={30} color="#C7EEFF" />
       </Pressable>
       <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
