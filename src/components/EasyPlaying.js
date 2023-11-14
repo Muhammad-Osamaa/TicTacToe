@@ -21,9 +21,8 @@ const EasyPlaying = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#10316B',
-    paddingVertical: 10,
-    borderRadius: 10,
-    borderTopLeftRadiusorder: 0,
+    // borderRadius: 10,
+    // borderTopLeftRadiusorder: 0,
     alignItems: 'center',
   },
   backButton: {

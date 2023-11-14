@@ -66,7 +66,8 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
         minimumTrackTintColor={sliderTrackColor}
         thumbTintColor={sliderTrackColor}
         thumbStyle={styles.thumbStyle}
-        trackStyle={{height: 40}}
+        trackStyle={styles.customTrackStyle}
+        thumbProps={{ children: <View />}}
         value={
           localDifficulty === 'Easy' ? 0 : localDifficulty === 'Medium' ? 1 : 2
         }
@@ -121,6 +122,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'red',
     fontSize: 'bold',
+  },
+  customTrackStyle: {
+    height: 40,
+    borderRadius: 20,
   },
   emoji: {
     marginTop: -40,

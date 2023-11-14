@@ -33,8 +33,6 @@ const HardPlaying = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#10316B',
-    paddingVertical: 10,
-    borderRadius: 10,
     alignItems: 'center',
   },
   backButton: {
