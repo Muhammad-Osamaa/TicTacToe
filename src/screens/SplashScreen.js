@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Text, StyleSheet, Image, Animated, Easing} from 'react-native';
+import {View, StyleSheet, Image, Animated, Easing} from 'react-native';
 
 const SplashScreen = ({navigation}) => {
   const fadeInAnim = useRef(new Animated.Value(0)).current;
