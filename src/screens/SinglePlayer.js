@@ -15,7 +15,6 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import ModalView from '../components/ModalView';
 const {width, height} = Dimensions.get('screen');
 const cellSize = Math.min(width, height) / 3.5;
-
 const SinglePlayer = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const {params} = useRoute();

@@ -67,7 +67,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
         thumbTintColor={sliderTrackColor}
         thumbStyle={styles.thumbStyle}
         trackStyle={styles.customTrackStyle}
-        thumbProps={{ children: <View />}}
+        thumbProps={{children: <View />}}
         value={
           localDifficulty === 'Easy' ? 0 : localDifficulty === 'Medium' ? 1 : 2
         }
@@ -92,7 +92,6 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#10316B',
