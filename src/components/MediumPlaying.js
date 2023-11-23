@@ -104,7 +104,7 @@ const MediumPlaying = () => {
     ];
 
     for (const pattern of winPatterns) {
-      const [a, b, c, d] = pattern;
+      const [a, b, c] = pattern;
       if (
         currentBoard[a] !== 'question' &&
         currentBoard[a] === currentBoard[b] &&
