@@ -12,7 +12,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Board from '../components/Board';
 import DifficultyLevel from '../components/DifficultyLevel';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import ModalView from '../components/ModalView';
 const {width, height} = Dimensions.get('screen');
 const cellSize = Math.min(width, height) / 3.5;
 const SinglePlayer = () => {
@@ -60,11 +59,6 @@ const SinglePlayer = () => {
     setIsModalVisible(false);
     setIsGameStarted(true);
   };
-  // useEffect(() => {
-  //   if (selectedDifficulty) {
-  //     startGame();
-  //   }
-  // }, [selectedDifficulty]);
 
   useEffect(() => {
     if (!isCross && !winner) {
@@ -82,20 +76,6 @@ const SinglePlayer = () => {
           const col = randomIndex % 3;
           drawItem(row, col);
         }
-        // } else if (selectedDifficulty === 'medium') {
-        //   const emptyCells = board.reduce((acc, cell, index) => {
-        //     if (cell === 'question') {
-        //       acc.push(index);
-        //     }
-        //     return acc;
-        //   }, []);
-        //   if (emptyCells.length > 0) {
-        //     const randomIndex =
-        //       emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        //     const row = Math.floor(randomIndex / 3);
-        //     const col = randomIndex % 3;
-        //     drawItem(row, col);
-        //   }
       } else if (selectedDifficulty === 'hard') {
         // Implement AI move logic for 'hard' difficulty
         setTimeout(() => {
@@ -287,25 +267,6 @@ const SinglePlayer = () => {
       return '';
     }
   };
-  // useEffect(() => {
-  //   setBoard([
-  //     'cross',
-  //     'circle',
-  //     'question',
-  //     'question',
-  //     'question',
-  //     'question',
-  //     'question',
-  //     'question',
-  //     'question',
-  //   ]);
-  //   resetGame();
-  // }, []);
-  // useEffect(() => {
-  //   if (winner !== '') {
-  //     Alert.alert(winner + 'Won The Game');
-  //   }
-  // }, [winner]);
   return (
     <View style={styles.container}>
       <Pressable
@@ -322,16 +283,6 @@ const SinglePlayer = () => {
           selectedDifficulty={selectedDifficulty}
         />
       )}
-      <ModalView
-        visible={isModalVisible}
-        onCloseModal={() => setIsModalVisible(false)}
-        onSelectDifficulty={difficulty => {
-          setSelectedDifficulty(difficulty);
-          handleDifficultySelect(difficulty);
-          startGame();
-        }}
-        difficultyLevel={selectedDifficulty}
-      />
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
           <View key={row} style={{flexDirection: 'row'}}>

@@ -11,7 +11,6 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   useEffect(() => {
     setLocalDifficulty('Easy');
   }, [selectedDifficulty]);
-
   useEffect(() => {
     if (localDifficulty === 'Easy') {
       setTextColor('#C7EEFF');
@@ -21,7 +20,6 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
       setTextColor('red');
     }
   }, [localDifficulty]);
-
   const handleDifficultyChange = value => {
     setLocalDifficulty(value);
   };

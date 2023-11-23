@@ -9,7 +9,6 @@ import {
   Pressable,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Board from '../components/Board';
 import {useNavigation} from '@react-navigation/native';
 const {width, height} = Dimensions.get('screen');
 
