@@ -11,26 +11,28 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   useEffect(() => {
     setLocalDifficulty('Easy');
   }, [selectedDifficulty]);
-  useEffect(() => {
-    if (localDifficulty === 'Easy') {
-      setTextColor('#C7EEFF');
-    } else if (localDifficulty === 'Medium') {
-      setTextColor('#FFBB5C');
-    } else {
-      setTextColor('red');
-    }
-  }, [localDifficulty]);
+  // useEffect(() => {
+  //   if (localDifficulty === 'Easy') {
+  //     setTextColor('#C7EEFF');
+  //   } else if (localDifficulty === 'Medium') {
+  //     setTextColor('#FFBB5C');
+  //   } else {
+  //     setTextColor('red');
+  //   }
+  // }, [localDifficulty]);
   const handleDifficultyChange = value => {
-    setLocalDifficulty(value);
+   
+    setLocalDifficulty(value === 0 ?'Easy' :value === 1 ?'Medium': 'Hard' );
+
   };
   const handleOkPress = () => {
-    if (localDifficulty === 'Easy') {
-      navigation.replace('EasyPlaying');
-    } else if (localDifficulty === 'Medium') {
-      navigation.replace('MediumPlaying');
-    } else if (localDifficulty === 'Hard') {
-      navigation.replace('HardPlaying');
-    }
+    // if (localDifficulty === 'Easy') {
+      navigation.replace(localDifficulty);
+    // } else if (localDifficulty === 'Medium') {
+    //   navigation.replace('MediumPlaying');
+    // } else if (localDifficulty === 'Hard') {
+    //   navigation.replace('EasyPlaying');
+    // }
   };
   const emojiColor =
     localDifficulty === 'Easy'
@@ -44,6 +46,12 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
       : localDifficulty === 'Medium'
       ? '#FFBB5C'
       : '#FF4500';
+
+      let PickColor=localDifficulty === 'Easy'
+      ? '#C7EEFF'
+      : localDifficulty === 'Medium'
+      ? '#FFBB5C'
+      : 'red';
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Difficulty Level</Text>
@@ -69,17 +77,16 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
         value={
           localDifficulty === 'Easy' ? 0 : localDifficulty === 'Medium' ? 1 : 2
         }
-        onValueChange={value => {
-          if (value === 0) {
-            handleDifficultyChange('Easy');
-          } else if (value === 1) {
-            handleDifficultyChange('Medium');
-          } else {
-            handleDifficultyChange('Hard');
-          }
-        }}
+        onValueChange={handleDifficultyChange}
       />
-      <Text style={[styles.difficultyText, {color: textColor}]}>
+      <Text
+        style={[
+          styles.difficultyText,
+          {
+            color:
+            PickColor
+          },
+        ]}>
         {localDifficulty}
       </Text>
       <View style={styles.buttonContainer}>

@@ -42,7 +42,8 @@ const MediumPlaying = () => {
         newBoard[aiMove] = 'circle';
 
         const winningPlayer = winGame(newBoard);
-        if (winningPlayer !== '') {
+        // if (winningPlayer !== '') {
+          if (winningPlayer) {
           setWinner(winningPlayer);
           showAlert(winningPlayer + ' Won The Game');
         } else if (!newBoard.includes('question')) {
@@ -57,12 +58,12 @@ const MediumPlaying = () => {
 
   const drawItem = (row, col) => {
     const index = row * 3 + col;
-    if (board[index] === 'question' && winner === '') {
+    if (board[index] === 'question' && !winner ) {
       const newBoard = [...board];
       newBoard[index] = 'cross';
 
       const winningPlayer = winGame(newBoard);
-      if (winningPlayer !== '') {
+      if (winningPlayer) {
         setWinner(winningPlayer);
         showAlert(winningPlayer + ' Won The Game');
       } else if (!newBoard.includes('question')) {
