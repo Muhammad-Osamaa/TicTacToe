@@ -51,7 +51,7 @@ const SplashScreen = ({navigation}) => {
     <View style={styles.container}>
       <Animated.View style={[styles.main, {opacity: fadeInAnim}, rotateStyle]}>
         <Image
-          source={require('../assets/images/ticTacToeLogo.png')}
+          source={require('../assets/images/img1.png')}
           style={styles.image}
         />
       </Animated.View>
