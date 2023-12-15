@@ -9,7 +9,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   const [textColor, setTextColor] = useState('#C7EEFF');
   const navigation = useNavigation();
   useEffect(() => {
-    setLocalDifficulty('Easy');
+    setLocalDifficulty(selectedDifficulty || 'Easy');
   }, [selectedDifficulty]);
   // useEffect(() => {
   //   if (localDifficulty === 'Easy') {
@@ -21,18 +21,22 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   //   }
   // }, [localDifficulty]);
   const handleDifficultyChange = value => {
-   
-    setLocalDifficulty(value === 0 ?'Easy' :value === 1 ?'Medium': 'Hard' );
-
+    setLocalDifficulty(value === 0 ? 'Easy' : value === 1 ? 'Medium' : 'Hard');
   };
   const handleOkPress = () => {
-    // if (localDifficulty === 'Easy') {
-      navigation.replace(localDifficulty);
-    // } else if (localDifficulty === 'Medium') {
-    //   navigation.replace('MediumPlaying');
-    // } else if (localDifficulty === 'Hard') {
-    //   navigation.replace('EasyPlaying');
-    // }
+    switch (localDifficulty) {
+      case 'Easy':
+        navigation.replace('EasyPlaying');
+        break;
+      case 'Medium':
+        navigation.replace('MediumPlaying');
+        break;
+      case 'Hard':
+        navigation.replace('HardPlaying');
+        break;
+      default:
+        break;
+    }
   };
   const emojiColor =
     localDifficulty === 'Easy'
@@ -47,7 +51,8 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
       ? '#FFBB5C'
       : '#FF4500';
 
-      let PickColor=localDifficulty === 'Easy'
+  let PickColor =
+    localDifficulty === 'Easy'
       ? '#C7EEFF'
       : localDifficulty === 'Medium'
       ? '#FFBB5C'
@@ -83,8 +88,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
         style={[
           styles.difficultyText,
           {
-            color:
-            PickColor
+            color: PickColor,
           },
         ]}>
         {localDifficulty}
