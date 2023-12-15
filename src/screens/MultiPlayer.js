@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Modal,
+  Alert,
   Dimensions,
   Pressable,
 } from 'react-native';
@@ -18,16 +18,23 @@ const MultiPlayer = () => {
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
-  const [isModalVisibe, setIsModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState({});
-
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisibe);
-  };
 
   const showAlert = (title, message, backgroundColor) => {
-    setModalContent({title, message, backgroundColor});
-    toggleModal();
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: 'OK',
+          onPress: () => resetGame(),
+        },
+      ],
+      {
+        backgroundColor: backgroundColor,
+        color: '#FFFFF',
+        borderRadius: 10,
+      },
+    );
   };
   const drawItem = (row, col) => {
     const index = row * 3 + col;
@@ -39,7 +46,20 @@ const MultiPlayer = () => {
       if (winningPlayer !== '') {
         showAlert(`${winningPlayer} Won the Game`, '', '#2B2B52');
       } else if (!newBoard.includes('question')) {
-        showAlert('The game is drawn', '', 'red');
+        Alert.alert(
+          'The game is drawn',
+          '',
+          [
+            {
+              text: 'OK',
+              onPress: () => resetGame(),
+            },
+          ],
+          {
+            backgroundColor: 'red',
+            color: '#FFFFF',
+          },
+        );
       } else {
         setIsCross(!isCross);
         setBoard(newBoard);
@@ -164,20 +184,6 @@ const MultiPlayer = () => {
           </View>
         ))}
       </View>
-      <Modal isVisible={isModalVisibe}>
-        <View
-          style={{
-            backgroundColor: modalContent.backgroundColor,
-            padding: 20,
-            borderRadius: 10,
-          }}>
-          <Text style={{color: 'red', fontSize: 20}}>{modalContent.title}</Text>
-          <Text style={{color: 'red'}}>{modalContent.message}</Text>
-          <TouchableOpacity onPress={toggleModal}>
-            <Text style={{color: 'red', marginTop: 10}}>Ok</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
     </View>
   );
 };
