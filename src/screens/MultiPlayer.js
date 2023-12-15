@@ -18,6 +18,24 @@ const MultiPlayer = () => {
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
+
+  const showAlert = (title, message, backgroundColor) => {
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: 'OK',
+          onPress: () => resetGame(),
+        },
+      ],
+      {
+        backgroundColor: backgroundColor,
+        color: '#FFFFF',
+        borderRadius: 10,
+      },
+    );
+  };
   const drawItem = (row, col) => {
     const index = row * 3 + col;
     if (board[index] === 'question' && winner === '') {
@@ -26,33 +44,9 @@ const MultiPlayer = () => {
 
       const winningPlayer = winGame(newBoard);
       if (winningPlayer !== '') {
-        setWinner(winningPlayer);
-        Alert.alert(
-          winningPlayer + 'Won The Game',
-          '',
-          [
-            {
-              text: 'OK',
-              onPress: () => resetGame(),
-            },
-          ],
-          {backgroundColor: '#2B2B52', color: '#FFFFF'},
-        );
+        showAlert(`${winningPlayer} Won the Game`, '', '#2B2B52');
       } else if (!newBoard.includes('question')) {
-        Alert.alert(
-          'The game is drawn',
-          '',
-          [
-            {
-              text: 'OK',
-              onPress: () => resetGame(),
-            },
-          ],
-          {
-            backgroundColor: 'red',
-            color: '#FFFFF',
-          },
-        );
+        showAlert('The game is drawn', '', 'red');
       } else {
         setIsCross(!isCross);
         setBoard(newBoard);
