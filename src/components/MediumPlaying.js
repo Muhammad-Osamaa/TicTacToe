@@ -32,33 +32,75 @@ const MediumPlaying = () => {
     }, []);
 
     if (availableMoves.length > 0) {
-      // Implement your medium difficulty logic here
-      // For simplicity, let's choose a random move for the medium difficulty
+      const winningMove = checkWinningMove('circle', [...board]);
+      if (winningMove !== null) {
+        makeMove(winningMove);
+        return;
+      }
+      const blockingMove = checkWinningMove('cross', [...board]);
+      if (blockingMove !== null) {
+        makeMove(blockingMove);
+        return;
+      }
       const randomIndex = Math.floor(Math.random() * availableMoves.length);
       const aiMove = availableMoves[randomIndex];
 
       setTimeout(() => {
-        const newBoard = [...board];
-        newBoard[aiMove] = 'circle';
+        // const newBoard = [...board];
+        // newBoard[aiMove] = 'circle';
 
-        const winningPlayer = winGame(newBoard);
-        // if (winningPlayer !== '') {
-          if (winningPlayer) {
-          setWinner(winningPlayer);
-          showAlert(winningPlayer + ' Won The Game');
-        } else if (!newBoard.includes('question')) {
-          showAlert('The game is drawn');
-        } else {
-          setIsCross(true);
-          setBoard(newBoard);
-        }
+        // const winningPlayer = winGame(newBoard);
+        // // if (winningPlayer !== '') {
+        // if (winningPlayer) {
+        //   setWinner(winningPlayer);
+        //   showAlert(winningPlayer + ' Won The Game');
+        // } else if (!newBoard.includes('question')) {
+        //   showAlert('The game is drawn');
+        // } else {
+        //   setIsCross(true);
+        //   setBoard(newBoard);
+        // }
+        makeMove(aiMove);
       }, 500); // Delay AI move for a better user experience
+    }
+  };
+  const checkWinningMove = (symbol, currentBoard) => {
+    const availableMoves = currentBoard.reduce((acc, cell, index) => {
+      if (cell === 'question') {
+        acc.push(index);
+      }
+      return acc;
+    }, []);
+    for (const move of availableMoves) {
+      const newBoard = simulateMove(move, symbol, [...currentBoard]);
+      if (winGame(newBoard) === symbol) {
+        return move;
+      }
+    }
+    return null;
+  };
+  const simulateMove = (move, symbol, currentBoard) => {
+    const newBoard = [...currentBoard];
+    newBoard[move] = symbol;
+    return newBoard;
+  };
+  const makeMove = move => {
+    const newBoard = simulateMove(move, 'circle');
+    const winningPlayer = winGame(newBoard);
+    if (winningPlayer) {
+      setWinner(winningPlayer);
+      showAlert(winningPlayer + 'Won The Game');
+    } else if (!newBoard.includes('question')) {
+      showAlert('The game is drawn');
+    } else {
+      setIsCross(true);
+      setBoard(newBoard);
     }
   };
 
   const drawItem = (row, col) => {
     const index = row * 3 + col;
-    if (board[index] === 'question' && !winner ) {
+    if (board[index] === 'question' && !winner) {
       const newBoard = [...board];
       newBoard[index] = 'cross';
 
@@ -118,6 +160,7 @@ const MediumPlaying = () => {
 
     if (!currentBoard.includes('question')) {
       showAlert('The game is drawn');
+      return 'draw';
     }
 
     return '';
@@ -132,6 +175,7 @@ const MediumPlaying = () => {
           onPress: () => resetGame(),
         },
       ],
+      {cancelable: false},
       {backgroundColor: '#2B2B52', color: '#FFFFF'},
     );
   };
