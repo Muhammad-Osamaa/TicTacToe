@@ -18,11 +18,11 @@ const MediumPlaying = () => {
   const [winner, setWinner] = useState('');
   const {width, height} = Dimensions.get('window');
   useEffect(() => {
-    if (!isCross) {
+    if (!isCross && winner === '') {
       // AI makes a move
       makeAIMove();
     }
-  }, [isCross]);
+  }, [isCross, winner]);
 
   const makeAIMove = () => {
     const availableMoves = board.reduce((acc, cell, index) => {
@@ -82,25 +82,14 @@ const MediumPlaying = () => {
 
   const winGame = currentBoard => {
     const winPatterns = [
-      // Rows
       [0, 1, 2],
       [3, 4, 5],
-      [6, 7, 8],
-      // Columns
+      [6, 7, 8], // Rows
       [0, 3, 6],
       [1, 4, 7],
-      [2, 5, 8],
-      // Diagonals
+      [2, 5, 8], // Columns
       [0, 4, 8],
-      [2, 4, 6],
-
-      [0, 2, 4],
-      [1, 5, 8],
-      [0, 6, 7],
-
-      [0, 5, 7],
-      [1, 3, 8],
-      [4, 6, 2],
+      [2, 4, 6], // Diagonals
     ];
 
     for (const pattern of winPatterns) {
@@ -110,7 +99,7 @@ const MediumPlaying = () => {
         currentBoard[a] === currentBoard[b] &&
         currentBoard[b] === currentBoard[c]
       ) {
-        setWinner(currentBoard[a]);
+        //setWinner(currentBoard[a]);
         return currentBoard[a];
       }
     }
