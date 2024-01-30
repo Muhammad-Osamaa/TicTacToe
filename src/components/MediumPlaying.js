@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
@@ -33,8 +33,6 @@ const MediumPlaying = () => {
     }, []);
 
     if (availableMoves.length > 0) {
-      // Implement your medium difficulty logic here
-      // For simplicity, let's choose a random move for the medium difficulty
       const randomIndex = Math.floor(Math.random() * availableMoves.length);
       const aiMove = availableMoves[randomIndex];
 
@@ -43,7 +41,7 @@ const MediumPlaying = () => {
         newBoard[aiMove] = 'circle';
 
         const winningPlayer = winGame(newBoard);
-        // if (winningPlayer !== '') {
+
         if (winningPlayer) {
           setWinner(winningPlayer);
           showAlert(winningPlayer + ' Won The Game');
@@ -154,8 +152,8 @@ const MediumPlaying = () => {
               <TouchableOpacity
                 key={col}
                 style={{
-                  width: width/3.5,
-                  height: height/7,
+                  width: width / 3.5,
+                  height: height / 7,
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderWidth: 1,
