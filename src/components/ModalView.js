@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Modal, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Modal, TouchableHighlight, StyleSheet} from 'react-native';
 import DifficultyLevel from './DifficultyLevel';
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -19,11 +19,11 @@ const ModalView = ({
         <View style={styles.modalContent}>
           <View style={styles.secondModalContent}>
             <View style={styles.closeButtonContainer}>
-              <TouchableOpacity
+              <TouchableHighlight
                 onPress={onCloseModal}
                 style={styles.closeButton}>
                 <Entypo size={30} name="circle-with-cross" color="#C7EEFF" />
-              </TouchableOpacity>
+              </TouchableHighlight>
             </View>
             <DifficultyLevel
               difficultyLevel={difficultyLevel}

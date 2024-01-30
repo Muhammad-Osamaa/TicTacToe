@@ -39,7 +39,6 @@ const Home = () => {
       ]),
     ).start();
   };
-
   const ringScale = {transform: [{scale: scaleValue}]};
   const handleExit = () => {
     Alert.alert(
