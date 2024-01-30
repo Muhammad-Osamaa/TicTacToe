@@ -122,7 +122,7 @@ const MultiPlayer = () => {
       // setWinner([2]);
       return currentBoard[2];
     } else {
-      console.log('No Winner Yet');
+      //console.log('No Winner Yet');
       return '';
     }
   };
@@ -139,22 +139,20 @@ const MultiPlayer = () => {
         onPress={() => navigation.goBack()}>
         <Entypo name="chevron-left" size={30} color="#C7EEFF" />
       </Pressable>
-      <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
-        Tic Tac Toe
-      </Text>
+      <Text style={styles.headerText}>Tic Tac Toe</Text>
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
-          <View key={row} style={{flexDirection: 'row'}}>
+          <View key={row} style={styles.row}>
             {[0, 1, 2].map(col => (
               <TouchableOpacity
                 key={col}
-                style={{
-                  width: cellSize,
-                  height: cellSize,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                }}
+                style={[
+                  styles.cell,
+                  {
+                    borderRightWidth: col !== 2 ? 2 : 0,
+                    borderBottomWidth: row !== 2 ? 2 : 0,
+                  },
+                ]}
                 onPress={() => drawItem(row, col)}
                 disabled={board[row * 3 + col] !== 'question'}>
                 {board[row * 3 + col] === 'question' ? (
@@ -162,7 +160,8 @@ const MultiPlayer = () => {
                     style={{
                       fontSize: cellSize / 2,
                       color: chooseItemColor(row, col),
-                    }}></Text>
+                    }}
+                  />
                 ) : (
                   <Entypo
                     name={board[row * 3 + col]}
@@ -184,6 +183,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#10316B',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  headerText: {
+    color: '#C7EEFF',
+    fontSize: 30,
+    padding: 30,
+    marginTop: 5,
+  },
+  board: {
+    borderWidth: 2,
+    borderColor: '#C7EEFF',
+    borderRadius: 10,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  cell: {
+    width: width / 3.5,
+    height: width / 3.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#C7EEFF',
   },
 });
 export default MultiPlayer;
