@@ -14,12 +14,23 @@ import {useNavigation} from '@react-navigation/native';
 function Square({value, onPress}) {
   const {width, height} = Dimensions.get('window');
   const squareSize = Math.min(width, height) * 0.25;
-  const color = value === 'X' ? '#FF3031' : '#45CE30';
+  const iconMap = {
+    X: 'cross',
+    O: 'circle',
+  };
   return (
     <TouchableOpacity
-      style={[styles.square, {width: squareSize, height: squareSize}]}
-      onPress={onPress}>
-      <Text style={[styles.squareText, {color: color}]}>{value}</Text>
+      style={[styles.square, {width: width / 3.5, height: height / 7}]}
+      onPress={onPress}
+      disabled={value !== null}>
+      {value !== null && (
+        <Entypo
+          name={iconMap[value]}
+          size={50}
+          color={value === 'X' ? '#FF3031' : '#45CE30'}
+        />
+      )}
+      {/* <Text style={[styles.squareText, {color: color}]}>{value}</Text> */}
     </TouchableOpacity>
   );
 }
