@@ -6,14 +6,20 @@ import {
   StyleSheet,
   Alert,
   Pressable,
+  Dimensions,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 
 function Square({value, onPress}) {
+  const {width, height} = Dimensions.get('window');
+  const squareSize = Math.min(width, height) * 0.25;
+  const color = value === 'X' ? '#FF3031' : '#45CE30';
   return (
-    <TouchableOpacity style={styles.square} onPress={onPress}>
-      <Text style={styles.squareText}>{value}</Text>
+    <TouchableOpacity
+      style={[styles.square, {width: squareSize, height: squareSize}]}
+      onPress={onPress}>
+      <Text style={[styles.squareText, {color: color}]}>{value}</Text>
     </TouchableOpacity>
   );
 }
@@ -24,9 +30,11 @@ function Board({squares, onPress}) {
       {[0, 1, 2].map(row => (
         <View key={row} style={{flexDirection: 'row'}}>
           {[0, 1, 2].map(col => (
-            <TouchableOpacity
+            <Square
               key={col}
-              style={{backgroundColor: 'red'}}></TouchableOpacity>
+              value={squares[row * 3 + col]}
+              onPress={() => onPress(row * 3 + col)}
+            />
           ))}
         </View>
       ))}
@@ -37,6 +45,9 @@ function Board({squares, onPress}) {
 export default function HardPlaying() {
   const navigation = useNavigation();
   const [board, setBoard] = useState(Array(9).fill(null));
+  const {width, height} = Dimensions.get('window');
+
+  const boardSize = Math.min(width, height) * 0.8;
 
   const calculateWinner = squares => {
     const lines = [
@@ -63,12 +74,7 @@ export default function HardPlaying() {
   };
 
   const isBoardFilled = squares => {
-    for (let i = 0; i < squares.length; i++) {
-      if (squares[i] === null) {
-        return false;
-      }
-    }
-    return true;
+    return squares.every(square => square !== null);
   };
 
   const findBestSquare = (squares, player) => {
@@ -82,12 +88,10 @@ export default function HardPlaying() {
       if (isBoardFilled(squares)) return {square: -1, score: 0};
 
       const best = {square: -1, score: isMax ? -1000 : 1000};
-
       for (let i = 0; i < squares.length; i++) {
         if (squares[i]) {
           continue;
         }
-
         squares[i] = isMax ? player : opponent;
         const score = minimax(squares, !isMax).score;
         squares[i] = null;
@@ -124,9 +128,9 @@ export default function HardPlaying() {
 
     const winner = calculateWinner(newBoard);
     if (winner) {
-      showAlert(`${winner} Won The Game`);
+      showAlert(`${winner} Won The Game`, resetBoard);
     } else if (isBoardFilled(newBoard)) {
-      showAlert("It's a Tie!");
+      showAlert("It's a Tie!", resetBoard);
     } else {
       const bestSquare = findBestSquare(newBoard, 'O');
 
@@ -136,25 +140,29 @@ export default function HardPlaying() {
 
         const newWinner = calculateWinner(newBoard);
         if (newWinner) {
-          showAlert(`${newWinner} Won The Game`);
+          showAlert(`${newWinner} Won The Game`, resetBoard);
         } else if (isBoardFilled(newBoard)) {
-          showAlert("It's a Tie!");
+          showAlert("It's a Tie!", resetBoard);
         }
       }
     }
   };
 
-  const showAlert = message => {
+  const showAlert = (message, callback) => {
     Alert.alert(
       message,
       '',
       [
         {
           text: 'OK',
+          onPress: callback,
         },
       ],
       {backgroundColor: '#2B2B52', color: '#FFFFF'},
     );
+  };
+  const resetBoard = () => {
+    setBoard(Array(9).fill(null));
   };
   const handleBackButton = () => {
     navigation.navigate('Home');
@@ -167,7 +175,9 @@ export default function HardPlaying() {
       <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
         Hard Mode
       </Text>
-      <Board squares={board} onPress={i => makeMove(i)} />
+      <View style={[styles.board, {width: boardSize, height: boardSize}]}>
+        <Board squares={board} onPress={i => makeMove(i)} />
+      </View>
     </View>
   );
 }
@@ -189,17 +199,16 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: 20,
+    backgroundColor: '#10316B',
   },
   square: {
-    width: 100,
-    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    backgroundColor: '#2B2B52',
+    backgroundColor: '#10316B',
   },
   squareText: {
     fontSize: 50,
-    color: '#C7EEFF',
+    color: 'red',
   },
 });
