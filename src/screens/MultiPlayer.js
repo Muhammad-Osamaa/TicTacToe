@@ -169,9 +169,7 @@ const MultiPlayer = () => {
                     style={{
                       fontSize: cellSize / 2,
                       color: chooseItemColor(row, col),
-                    }}>
-                    ?
-                  </Text>
+                    }}></Text>
                 ) : (
                   <Entypo
                     name={board[row * 3 + col]}
