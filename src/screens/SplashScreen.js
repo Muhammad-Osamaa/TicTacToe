@@ -5,6 +5,7 @@ const SplashScreen = ({navigation}) => {
   const fadeInAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const rotateAnim = useRef(new Animated.Value(0)).current;
+  const bounceAnim = useRef(new Animated.Value(0.8)).current;
   useEffect(() => {
     const delay = 2000;
 
@@ -25,6 +26,12 @@ const SplashScreen = ({navigation}) => {
         duration: 1000,
         useNativeDriver: true,
       }),
+      Animated.spring(bounceAnim, {
+        toValue: 1,
+        friction: 1,
+        tension: 20,
+        useNativeDriver: true,
+      }),
     ]).start();
 
     const timer = setTimeout(() => {
@@ -34,7 +41,7 @@ const SplashScreen = ({navigation}) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [navigation, fadeInAnim, scaleAnim, rotateAnim]);
+  }, [navigation, fadeInAnim, scaleAnim, rotateAnim, bounceAnim]);
 
   const rotateStyle = {
     transform: [
@@ -50,9 +57,9 @@ const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.main, {opacity: fadeInAnim}, rotateStyle]}>
-        <Image
+        <Animated.Image
           source={require('../assets/images/img1.png')}
-          style={styles.image}
+          style={[styles.image, {transform: [{scale: bounceAnim}]}]}
         />
       </Animated.View>
     </View>
