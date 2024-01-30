@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Dimensions,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
@@ -15,6 +16,7 @@ const EasyPlaying = () => {
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
+  const {width, height} = Dimensions.get('window');
 
   useEffect(() => {
     if (!isCross) {
@@ -172,8 +174,8 @@ const EasyPlaying = () => {
               <TouchableOpacity
                 key={col}
                 style={{
-                  width: 100, // Adjust as needed
-                  height: 100, // Adjust as needed
+                  width: width / 3.5,
+                  height: height / 7,
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderWidth: 1,
