@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -19,50 +19,43 @@ const MultiPlayer = () => {
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
 
+  useEffect(() => {
+    if (winner !== '') {
+      showAlert(`${winner} WOn the Game`, '', '#2B2B52');
+    }
+  }, [winner]);
   const showAlert = (title, message, backgroundColor) => {
-    Alert.alert(
-      title,
-      message,
-      [
+    setTimeout(() => {
+      Alert.alert(
+        title,
+        message,
+        [
+          {
+            text: 'OK',
+            onPress: () => resetGame(),
+          },
+        ],
         {
-          text: 'OK',
-          onPress: () => resetGame(),
+          backgroundColor: backgroundColor,
+          color: '#FFFFF',
+          borderRadius: 10,
         },
-      ],
-      {
-        backgroundColor: backgroundColor,
-        color: '#FFFFF',
-        borderRadius: 10,
-      },
-    );
+      );
+    }, 500);
   };
   const drawItem = (row, col) => {
     const index = row * 3 + col;
-    if (board[index] === 'question' && winner === '') {
+    if (board[index] === 'question') {
       const newBoard = [...board];
       newBoard[index] = isCross ? 'cross' : 'circle';
-
+      setBoard(newBoard);
       const winningPlayer = winGame(newBoard);
       if (winningPlayer !== '') {
-        showAlert(`${winningPlayer} Won the Game`, '', '#2B2B52');
+        setWinner(winningPlayer);
       } else if (!newBoard.includes('question')) {
-        Alert.alert(
-          'The game is drawn',
-          '',
-          [
-            {
-              text: 'OK',
-              onPress: () => resetGame(),
-            },
-          ],
-          {
-            backgroundColor: 'red',
-            color: '#FFFFF',
-          },
-        );
+        showAlert('The game is drawn', '', 'red');
       } else {
         setIsCross(!isCross);
-        setBoard(newBoard);
       }
     }
   };
@@ -73,61 +66,61 @@ const MultiPlayer = () => {
   };
   const winGame = currentBoard => {
     if (
-      board[0] !== 'question' &&
-      board[0] === board[1] &&
-      board[1] === board[2]
+      currentBoard[0] !== 'question' &&
+      currentBoard[0] === currentBoard[1] &&
+      currentBoard[1] === currentBoard[2]
     ) {
-      setWinner(board[0]);
-      return board[0];
+      // setWinner(board[0]);
+      return currentBoard[0];
     } else if (
-      board[3] !== 'question' &&
-      board[3] === board[4] &&
-      board[4] === board[5]
+      currentBoard[3] !== 'question' &&
+      currentBoard[3] === currentBoard[4] &&
+      currentBoard[4] === currentBoard[5]
     ) {
-      setWinner(board[3]);
-      return board[3];
+      // setWinner(board[3]);
+      return currentBoard[3];
     } else if (
-      board[6] !== 'question' &&
-      board[6] === board[7] &&
-      board[7] === board[8]
+      currentBoard[6] !== 'question' &&
+      currentBoard[6] === currentBoard[7] &&
+      currentBoard[7] === currentBoard[8]
     ) {
-      setWinner(board[6]);
-      return board[6];
+      // setWinner(board[6]);
+      return currentBoard[6];
     } else if (
-      board[0] !== 'question' &&
-      board[0] === board[3] &&
-      board[3] === board[6]
+      currentBoard[0] !== 'question' &&
+      currentBoard[0] === currentBoard[3] &&
+      currentBoard[3] === currentBoard[6]
     ) {
-      setWinner(board[0]);
-      return board[0];
+      // setWinner(board[0]);
+      return currentBoard[0];
     } else if (
-      board[1] !== 'question' &&
-      board[1] === board[4] &&
-      board[4] === board[7]
+      currentBoard[1] !== 'question' &&
+      currentBoard[1] === currentBoard[4] &&
+      currentBoard[4] === currentBoard[7]
     ) {
-      setWinner(board[1]);
-      return board[1];
+      // setWinner(board[1]);
+      return currentBoard[1];
     } else if (
-      board[2] !== 'question' &&
-      board[2] === board[5] &&
-      board[5] === board[8]
+      currentBoard[2] !== 'question' &&
+      currentBoard[2] === currentBoard[5] &&
+      currentBoard[5] === currentBoard[8]
     ) {
-      setWinner(board[2]);
-      return board[2];
+      // setWinner(board[2]);
+      return currentBoard[2];
     } else if (
-      board[0] !== 'question' &&
-      board[0] === board[4] &&
-      board[4] === board[8]
+      currentBoard[0] !== 'question' &&
+      currentBoard[0] === currentBoard[4] &&
+      currentBoard[4] === currentBoard[8]
     ) {
-      setWinner(board[0]);
-      return board[0];
+      // setWinner(board[0]);
+      return currentBoard[0];
     } else if (
-      board[2] !== 'question' &&
-      board[2] === board[4] &&
-      board[4] === board[6]
+      currentBoard[2] !== 'question' &&
+      currentBoard[2] === currentBoard[4] &&
+      currentBoard[4] === currentBoard[6]
     ) {
-      setWinner([2]);
-      return board[2];
+      // setWinner([2]);
+      return currentBoard[2];
     } else {
       console.log('No Winner Yet');
       return '';
