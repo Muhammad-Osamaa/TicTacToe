@@ -21,7 +21,7 @@ const MultiPlayer = () => {
 
   useEffect(() => {
     if (winner !== '') {
-      showAlert(`${winner} WOn the Game`, '', '#2B2B52');
+      showAlert(`${winner} Won the Game`, '', '#2B2B52');
     }
   }, [winner]);
   const showAlert = (title, message, backgroundColor) => {
@@ -149,7 +149,7 @@ const MultiPlayer = () => {
         <Pressable
           style={{position: 'absolute', top: 10, left: 10}}
           onPress={() => navigation.goBack()}>
-          <Entypo name="chevron-left" size={50} color="#C7EEFF" />
+          <Entypo name="chevron-left" size={45} color="#C7EEFF" />
         </Pressable>
 
         <Text style={styles.headerText}>Tic Tac Toe</Text>
@@ -158,34 +158,27 @@ const MultiPlayer = () => {
         {[0, 1, 2].map(row => (
           <View key={row} style={styles.row}>
             {[0, 1, 2].map(col => (
-              <TouchableOpacity
-                key={col}
-                style={[
-                  styles.cell,
-                  {
-                    borderRightWidth: col !== 2 ? 2 : 0,
-                    borderBottomWidth: row !== 2 ? 2 : 0,
-                    borderColor: borderColors[row * 3 + col],
-                    margin: 5,
-                  },
-                ]}
-                onPress={() => drawItem(row, col)}
-                disabled={board[row * 3 + col] !== 'question'}>
-                {board[row * 3 + col] === 'question' ? (
-                  <Text
-                    style={{
-                      fontSize: cellSize / 2,
-                      color: chooseItemColor(row, col),
-                    }}
-                  />
-                ) : (
-                  <Entypo
-                    name={board[row * 3 + col]}
-                    size={cellSize / 2}
-                    color={chooseItemColor(row, col)}
-                  />
-                )}
-              </TouchableOpacity>
+              <View key={col} style={styles.cell}>
+                <TouchableOpacity
+                  style={styles.cellContent}
+                  onPress={() => drawItem(row, col)}
+                  disabled={board[row * 3 + col] !== 'question'}>
+                  {board[row * 3 + col] === 'question' ? (
+                    <Text
+                      style={{
+                        fontSize: cellSize / 2,
+                        color: chooseItemColor(row, col),
+                      }}
+                    />
+                  ) : (
+                    <Entypo
+                      name={board[row * 3 + col]}
+                      size={cellSize / 2}
+                      color={chooseItemColor(row, col)}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
             ))}
           </View>
         ))}
@@ -209,15 +202,11 @@ const styles = StyleSheet.create({
     color: '#C7EEFF',
     fontSize: 30,
     padding: 30,
-    fontFamily:'sans-serif-medium',
-    fontStyle:'italic'
+    fontFamily: 'sans-serif-medium',
+    fontStyle: 'italic',
   },
   board: {
     alignItems: 'center',
-    borderWidth: 1.5,
-    borderTopColor:'#10316B',
-    borderRightColor: '#C7EEFF',
-    borderBottomColor: '#C7EEFF'
   },
   row: {
     flexDirection: 'row',
@@ -225,10 +214,15 @@ const styles = StyleSheet.create({
   cell: {
     width: width / 3.5,
     height: width / 3.5,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderColor: '#C7EEFF',
     borderWidth: 1,
+    margin: 5,
+    borderRadius: 5,
+  },
+  cellContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default MultiPlayer;
