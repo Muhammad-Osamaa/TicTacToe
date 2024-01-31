@@ -188,7 +188,7 @@ const MultiPlayer = () => {
     <View style={styles.container}>
       <View style={styles.mainContainer}>
         <Pressable
-          style={{position: 'absolute', top: 10, left: 10}}
+          style={styles.backButton}
           onPress={() => navigation.goBack()}>
           <Entypo name="chevron-left" size={45} color="#C7EEFF" />
         </Pressable>
@@ -199,7 +199,16 @@ const MultiPlayer = () => {
         {[0, 1, 2].map(row => (
           <View key={row} style={styles.row}>
             {[0, 1, 2].map(col => (
-              <View
+              // <View
+              //   key={col}
+              //   style={[
+              //     styles.cell,
+              //     {
+              //       borderColor: getBorderColor(row, col),
+              //       backgroundColor: chooseItemColor(row, col),
+              //     },
+              //   ]}>
+              <TouchableOpacity
                 key={col}
                 style={[
                   styles.cell,
@@ -207,19 +216,16 @@ const MultiPlayer = () => {
                     borderColor: getBorderColor(row, col),
                     backgroundColor: chooseItemColor(row, col),
                   },
-                ]}>
-                <TouchableOpacity
-                  style={styles.cellContent}
-                  onPress={() => drawItem(row, col)}
-                  disabled={board[row * 3 + col] !== 'question'}>
-                  {board[row * 3 + col] === 'cross' && (
-                    <Entypo name="cross" size={cellSize / 2} color="#FF3333" />
-                  )}
-                  {board[row * 3 + col] === 'circle' && (
-                    <Entypo name="circle" size={cellSize / 2} color="#008200" />
-                  )}
-                </TouchableOpacity>
-              </View>
+                ]}
+                onPress={() => drawItem(row, col)}
+                disabled={board[row * 3 + col] !== 'question'}>
+                {board[row * 3 + col] === 'cross' && (
+                  <Entypo name="cross" size={cellSize / 2} color="#FF3333" />
+                )}
+                {board[row * 3 + col] === 'circle' && (
+                  <Entypo name="circle" size={cellSize / 2} color="#008200" />
+                )}
+              </TouchableOpacity>
             ))}
           </View>
         ))}
@@ -236,28 +242,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 20,
   },
-
+  backButton: {
+    position: 'absolute',
+    left: 20,
+  },
   headerText: {
     color: '#C7EEFF',
-    fontSize: 30,
-    padding: 30,
+    fontSize: 28,
     fontFamily: 'sans-serif-medium',
     fontStyle: 'italic',
   },
   board: {
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
   },
   row: {
     flexDirection: 'row',
   },
   cell: {
-    width: width / 3.5,
-    height: width / 3.5,
-    borderColor: '#C7EEFF',
-    borderWidth: 1.5,
-    margin: 5,
-    borderRadius: 5,
+    width: width / 4,
+    height: width / 4,
+    borderWidth: 2,
+    margin: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
   },
   cellContent: {
     flex: 1,
