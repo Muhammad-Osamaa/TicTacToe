@@ -158,7 +158,12 @@ const MultiPlayer = () => {
         {[0, 1, 2].map(row => (
           <View key={row} style={styles.row}>
             {[0, 1, 2].map(col => (
-              <View key={col} style={styles.cell}>
+              <View
+                key={col}
+                style={[
+                  styles.cell,
+                  {borderColor: borderColors[row * 3 + col]},
+                ]}>
                 <TouchableOpacity
                   style={styles.cellContent}
                   onPress={() => drawItem(row, col)}
@@ -193,7 +198,6 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flexDirection: 'row',
-    backgroundColor: '#10316B',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -215,7 +219,7 @@ const styles = StyleSheet.create({
     width: width / 3.5,
     height: width / 3.5,
     borderColor: '#C7EEFF',
-    borderWidth: 1,
+    borderWidth: 1.5,
     margin: 5,
     borderRadius: 5,
   },
