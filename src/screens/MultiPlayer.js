@@ -135,15 +135,36 @@ const MultiPlayer = () => {
   };
   const chooseItemColor = (row, col) => {
     const index = row * 3 + col;
-    // if (board[index] === 'cross') return '#FF3031';
-    // else if (board[index] === 'circle') return '#45CE30';
-    // return '#74B9FF';
-    if (touchedCells[index]) {
-      return board[index] === 'cross' ? '#FF3031' : '#45CE30';
-    } else {
-      return '#E4E4E4';
+    const borderColor = getBorderColor(row, col);
+    switch (borderColor) {
+      case '#FF5733':
+        return '#FFE3DD';
+      case '#FFC300':
+        return '#FFF7DD';
+      case '#DAF7A6':
+        return '#F3FDE1';
+      case '#9A12B3':
+        return '#EDD7F2';
+      case '#3498DB':
+        return '#DDEDF9';
+      case '#E74C3C':
+        return '#FADAD6';
+      case '#F1C40F':
+        return '#FDF5D7';
+      case '#2ECC71':
+        return '#DCF6E7';
+      case '#8E44AD':
+        return '#F0E5F4';
+      default:
+        return '#E4E4E4';
     }
   };
+  //   if (touchedCells[index]) {
+  //     return board[index] === 'cross' ? '#FF3031' : '#45CE30';
+  //   } else {
+  //     return '#E4E4E4';
+  //   }
+  // };
   const getBorderColor = (row, col) => {
     const index = row * 3 + col;
     if (touchedCells[index]) {
@@ -192,10 +213,10 @@ const MultiPlayer = () => {
                   onPress={() => drawItem(row, col)}
                   disabled={board[row * 3 + col] !== 'question'}>
                   {board[row * 3 + col] === 'cross' && (
-                    <Entypo name="cross" size={cellSize / 2} color="#FFF" />
+                    <Entypo name="cross" size={cellSize / 2} color="#FF3333" />
                   )}
                   {board[row * 3 + col] === 'circle' && (
-                    <Entypo name="circle" size={cellSize / 2} color="#FFF" />
+                    <Entypo name="circle" size={cellSize / 2} color="#008200" />
                   )}
                 </TouchableOpacity>
               </View>
