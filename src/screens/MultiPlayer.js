@@ -18,6 +18,7 @@ const MultiPlayer = () => {
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
+  const [touchedCells, setTouchedCells] = useState(Array(9).fill(false));
 
   useEffect(() => {
     if (winner !== '') {
@@ -57,12 +58,18 @@ const MultiPlayer = () => {
       } else {
         setIsCross(!isCross);
       }
+      setTouchedCells(prevState => {
+        const updatedCells = [...prevState];
+        updatedCells[index] = true;
+        return updatedCells;
+      });
     }
   };
   const resetGame = () => {
     setIsCross(true);
     setBoard(Array(9).fill('question'));
     setWinner('');
+    setTouchedCells(Array(9).fill(false));
   };
   const winGame = currentBoard => {
     if (
@@ -128,9 +135,22 @@ const MultiPlayer = () => {
   };
   const chooseItemColor = (row, col) => {
     const index = row * 3 + col;
-    if (board[index] === 'cross') return '#FF3031';
-    else if (board[index] === 'circle') return '#45CE30';
-    return '#74B9FF';
+    // if (board[index] === 'cross') return '#FF3031';
+    // else if (board[index] === 'circle') return '#45CE30';
+    // return '#74B9FF';
+    if (touchedCells[index]) {
+      return board[index] === 'cross' ? '#FF3031' : '#45CE30';
+    } else {
+      return '#E4E4E4';
+    }
+  };
+  const getBorderColor = (row, col) => {
+    const index = row * 3 + col;
+    if (touchedCells[index]) {
+      return borderColors[index % borderColors.length];
+    } else {
+      return '#BEBEBE';
+    }
   };
   const borderColors = [
     '#FF5733',
@@ -162,25 +182,20 @@ const MultiPlayer = () => {
                 key={col}
                 style={[
                   styles.cell,
-                  {borderColor: borderColors[row * 3 + col]},
+                  {
+                    borderColor: getBorderColor(row, col),
+                    backgroundColor: chooseItemColor(row, col),
+                  },
                 ]}>
                 <TouchableOpacity
                   style={styles.cellContent}
                   onPress={() => drawItem(row, col)}
                   disabled={board[row * 3 + col] !== 'question'}>
-                  {board[row * 3 + col] === 'question' ? (
-                    <Text
-                      style={{
-                        fontSize: cellSize / 2,
-                        color: chooseItemColor(row, col),
-                      }}
-                    />
-                  ) : (
-                    <Entypo
-                      name={board[row * 3 + col]}
-                      size={cellSize / 2}
-                      color={chooseItemColor(row, col)}
-                    />
+                  {board[row * 3 + col] === 'cross' && (
+                    <Entypo name="cross" size={cellSize / 2} color="#FFF" />
+                  )}
+                  {board[row * 3 + col] === 'circle' && (
+                    <Entypo name="circle" size={cellSize / 2} color="#FFF" />
                   )}
                 </TouchableOpacity>
               </View>
