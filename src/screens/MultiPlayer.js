@@ -132,14 +132,28 @@ const MultiPlayer = () => {
     else if (board[index] === 'circle') return '#45CE30';
     return '#74B9FF';
   };
+  const borderColors = [
+    '#FF5733',
+    '#FFC300',
+    '#DAF7A6',
+    '#9A12B3',
+    '#3498DB',
+    '#E74C3C',
+    '#F1C40F',
+    '#2ECC71',
+    '#8E44AD',
+  ];
   return (
     <View style={styles.container}>
-      <Pressable
-        style={{position: 'absolute', top: 10, left: 10}}
-        onPress={() => navigation.goBack()}>
-        <Entypo name="chevron-left" size={30} color="#C7EEFF" />
-      </Pressable>
-      <Text style={styles.headerText}>Tic Tac Toe</Text>
+      <View style={styles.mainContainer}>
+        <Pressable
+          style={{position: 'absolute', top: 10, left: 10}}
+          onPress={() => navigation.goBack()}>
+          <Entypo name="chevron-left" size={50} color="#C7EEFF" />
+        </Pressable>
+
+        <Text style={styles.headerText}>Tic Tac Toe</Text>
+      </View>
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
           <View key={row} style={styles.row}>
@@ -151,6 +165,8 @@ const MultiPlayer = () => {
                   {
                     borderRightWidth: col !== 2 ? 2 : 0,
                     borderBottomWidth: row !== 2 ? 2 : 0,
+                    borderColor: borderColors[row * 3 + col],
+                    margin: 5,
                   },
                 ]}
                 onPress={() => drawItem(row, col)}
@@ -181,19 +197,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#10316B',
+  },
+  mainContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#10316B',
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   headerText: {
     color: '#C7EEFF',
     fontSize: 30,
     padding: 30,
-    marginTop: 5,
+    fontFamily:'sans-serif-medium',
+    fontStyle:'italic'
   },
   board: {
-    borderWidth: 2,
-    borderColor: '#C7EEFF',
-    borderRadius: 10,
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderTopColor:'#10316B',
+    borderRightColor: '#C7EEFF',
+    borderBottomColor: '#C7EEFF'
   },
   row: {
     flexDirection: 'row',
@@ -204,6 +228,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C7EEFF',
+    borderWidth: 1,
   },
 });
 export default MultiPlayer;
