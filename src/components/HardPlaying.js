@@ -180,7 +180,7 @@ export default function HardPlaying() {
   return (
     <View style={styles.container}>
       <Pressable style={styles.backButton} onPress={handleBackButton}>
-        <Entypo name="chevron-left" size={30} color="#C7EEFF" />
+        <Entypo name="chevron-left" size={45} color="#C7EEFF" />
       </Pressable>
       <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
         Hard Mode
