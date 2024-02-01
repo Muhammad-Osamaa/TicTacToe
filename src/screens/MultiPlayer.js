@@ -19,9 +19,11 @@ const MultiPlayer = () => {
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
+  const [lastTouchedCell, setLastTouchedCell] = useState(null);
   const [touchedCells, setTouchedCells] = useState(Array(9).fill(false));
   const [fadeInAnim] = useState(new Animated.Value(0));
   const [bounceAnim] = useState(new Animated.Value(0.8));
+  const [imageAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
     Animated.timing(fadeInAnim, {
@@ -42,24 +44,34 @@ const MultiPlayer = () => {
       showAlert(`${winner} Won the Game`, '', '#2B2B52');
     }
   }, [winner]);
+
   const showAlert = (title, message, backgroundColor) => {
-    setTimeout(() => {
-      Alert.alert(
-        title,
-        message,
-        [
-          {
-            text: 'OK',
-            onPress: () => resetGame(),
-          },
-        ],
+    Alert.alert(
+      title,
+      message,
+      [
         {
-          backgroundColor: backgroundColor,
-          color: '#FFFFF',
-          borderRadius: 10,
+          text: 'OK',
+          onPress: () => {
+            resetGame();
+            Animated.spring(bounceAnim, {
+              toValue: 1,
+              friction: 1,
+              tension: 20,
+              useNativeDriver: true,
+            }).start();
+          },
         },
-      );
-    }, 500);
+      ],
+      {
+        backgroundColor: backgroundColor,
+        color: '#FFFFF',
+        borderRadius: 10,
+      },
+    );
+  };
+  const resetAnimation = () => {
+    imageAnim.setValue(0);
   };
   const drawItem = (row, col) => {
     const index = row * 3 + col;
@@ -80,6 +92,8 @@ const MultiPlayer = () => {
         updatedCells[index] = true;
         return updatedCells;
       });
+      setLastTouchedCell(index);
+      triggerAnimation();
     }
   };
   const resetGame = () => {
@@ -87,6 +101,8 @@ const MultiPlayer = () => {
     setBoard(Array(9).fill('question'));
     setWinner('');
     setTouchedCells(Array(9).fill(false));
+    setLastTouchedCell(null);
+    resetAnimation();
   };
   const winGame = currentBoard => {
     if (
@@ -176,12 +192,6 @@ const MultiPlayer = () => {
         return '#E4E4E4';
     }
   };
-  //   if (touchedCells[index]) {
-  //     return board[index] === 'cross' ? '#FF3031' : '#45CE30';
-  //   } else {
-  //     return '#E4E4E4';
-  //   }
-  // };
   const getBorderColor = (row, col) => {
     const index = row * 3 + col;
     if (touchedCells[index]) {
@@ -201,6 +211,13 @@ const MultiPlayer = () => {
     '#2ECC71',
     '#8E44AD',
   ];
+  const triggerAnimation = () => {
+    Animated.timing(imageAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  };
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
@@ -215,7 +232,10 @@ const MultiPlayer = () => {
       <Animated.View style={[styles.main, {opacity: fadeInAnim}]}>
         <Animated.Image
           source={require('../assets/images/img1.png')}
-          style={[styles.image, {transform: [{scale: bounceAnim}]}]}
+          style={[
+            styles.image,
+            {transform: [{scale: bounceAnim}, {translateY: imageAnim}]},
+          ]}
         />
       </Animated.View>
       <View style={styles.board}>
