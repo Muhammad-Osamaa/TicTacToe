@@ -7,6 +7,7 @@ import {
   Alert,
   Dimensions,
   Pressable,
+  Animated,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
@@ -19,6 +20,22 @@ const MultiPlayer = () => {
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
   const [touchedCells, setTouchedCells] = useState(Array(9).fill(false));
+  const [fadeInAnim] = useState(new Animated.Value(0));
+  const [bounceAnim] = useState(new Animated.Value(0.8));
+
+  useEffect(() => {
+    Animated.timing(fadeInAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+    Animated.spring(bounceAnim, {
+      toValue: 1,
+      friction: 1,
+      tension: 20,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
   useEffect(() => {
     if (winner !== '') {
@@ -195,19 +212,16 @@ const MultiPlayer = () => {
 
         <Text style={styles.headerText}>Tic Tac Toe</Text>
       </View>
+      <Animated.View style={[styles.main, {opacity: fadeInAnim}]}>
+        <Animated.Image
+          source={require('../assets/images/img1.png')}
+          style={[styles.image, {transform: [{scale: bounceAnim}]}]}
+        />
+      </Animated.View>
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
           <View key={row} style={styles.row}>
             {[0, 1, 2].map(col => (
-              // <View
-              //   key={col}
-              //   style={[
-              //     styles.cell,
-              //     {
-              //       borderColor: getBorderColor(row, col),
-              //       backgroundColor: chooseItemColor(row, col),
-              //     },
-              //   ]}>
               <TouchableOpacity
                 key={col}
                 style={[
@@ -254,8 +268,17 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-medium',
     fontStyle: 'italic',
   },
+  main: {
+    paddingTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: width * 0.3,
+    height: height * 0.2,
+  },
   board: {
-    flex: 1,
+    paddingTop: 15,
     alignItems: 'center',
     justifyContent: 'center',
     //marginTop: 20,
