@@ -30,7 +30,6 @@ function Square({value, onPress}) {
           color={value === 'X' ? '#FF3031' : '#45CE30'}
         />
       )}
-      {/* <Text style={[styles.squareText, {color: color}]}>{value}</Text> */}
     </TouchableOpacity>
   );
 }

@@ -255,9 +255,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   board: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    //marginTop: 20,
   },
   row: {
     flexDirection: 'row',
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
     width: width / 4,
     height: width / 4,
     borderWidth: 2,
-    margin: 2,
+    margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
