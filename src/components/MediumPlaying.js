@@ -175,7 +175,7 @@ const MediumPlaying = () => {
   const getBorderColor = (row, col) => {
     const index = row * 3 + col;
     if (touchedCells[index]) {
-      return borderColor[index % borderColors.length];
+      return borderColors[index % borderColors.length];
     } else {
       return '#BEBEBE';
     }
@@ -223,7 +223,8 @@ const MediumPlaying = () => {
                   {
                     backgroundColor: chooseItemColor(row, col),
                     borderColor: getBorderColor(row, col),
-                  }]}
+                  },
+                ]}
                 onPress={() => drawItem(row, col)}
                 disabled={board[row * 3 + col] !== 'question'}>
                 {board[row * 3 + col] === 'question' ? (
@@ -242,6 +243,22 @@ const MediumPlaying = () => {
           </View>
         ))}
       </View>
+      <ModalView
+        visible={modalVisible}
+        onCloseModal={() => {
+          setModalVisible(false);
+          resetGame();
+        }}>
+        <Text style={styles.modalText}>{modalMessage}</Text>
+        <TouchableOpacity
+          style={styles.modalButton}
+          onPress={() => {
+            setModalVisible(false);
+            resetGame();
+          }}>
+          <Text style={styles.buttonText}>Okay</Text>
+        </TouchableOpacity>
+      </ModalView>
     </View>
   );
 };
@@ -250,8 +267,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#10316B',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   mainContainer: {
     flexDirection: 'row',
@@ -261,8 +276,8 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 10,
-    left: 10,
+    //top: 10,
+    left: 20,
   },
   headerText: {
     color: '#C7EEFF',
@@ -270,13 +285,58 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-medium',
     fontStyle: 'italic',
   },
+  main: {
+    paddingTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   board: {
-    flexDirection: 'column',
+    paddingTop: 15,
     alignItems: 'center',
     marginTop: 20,
   },
   row: {
     flexDirection: 'row',
+  },
+
+  cell: {
+    width: Dimensions.get('window').width / 3.5,
+    height: Dimensions.get('window').width / 3.5,
+    aspectRatio: 1,
+    borderWidth: 2,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: Dimensions.get('window').width * 0.05,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#C7EEFF',
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: '#C7EEFF',
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: '#279EFF',
+    paddingVertical: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    overflow: 'hidden',
+  },
+  buttonText: {
+    borderWidth: 1.5,
+    borderColor: '#279EFF',
+    backgroundColor: '#10316b',
+    color: '#C7EEFF',
+    fontSize: Dimensions.get('window').width * 0.05,
+    fontWeight: '600',
+    paddingHorizontal: '22%',
+    paddingVertical: 10,
+    borderRadius: 5,
   },
 });
 
