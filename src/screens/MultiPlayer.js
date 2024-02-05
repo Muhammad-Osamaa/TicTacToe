@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   Dimensions,
   Pressable,
   Animated,
@@ -48,32 +47,6 @@ const MultiPlayer = () => {
       setModalVisible(true);
     }
   }, [winner]);
-
-  // const showAlert = (title, message, backgroundColor) => {
-  //   Alert.alert(
-  //     title,
-  //     message,
-  //     [
-  //       {
-  //         text: 'OK',
-  //         onPress: () => {
-  //           resetGame();
-  //           Animated.spring(bounceAnim, {
-  //             toValue: 1,
-  //             friction: 1,
-  //             tension: 20,
-  //             useNativeDriver: true,
-  //           }).start();
-  //         },
-  //       },
-  //     ],
-  //     {
-  //       backgroundColor: backgroundColor,
-  //       color: '#FFFFF',
-  //       borderRadius: 10,
-  //     },
-  //   );
-  // };
   const resetAnimation = () => {
     imageAnim.setValue(0);
   };
@@ -366,7 +339,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     paddingHorizontal: 58,
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderRadius: 5,
   },
 });
