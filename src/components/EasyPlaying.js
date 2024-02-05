@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import ModalView from './ModalView';
 
 const EasyPlaying = () => {
   const navigation = useNavigation();
@@ -21,6 +22,8 @@ const EasyPlaying = () => {
   const [bounceAnim] = useState(new Animated.Value(0.8));
   const [imageAnim] = useState(new Animated.Value(0));
   const [touchedCells, setTouchedCells] = useState(Array(9).fill(false));
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const {width, height} = Dimensions.get('screen');
 
   useEffect(() => {
@@ -63,9 +66,11 @@ const EasyPlaying = () => {
         const winningPlayer = winGame(newBoard);
         if (winningPlayer !== '') {
           setWinner(winningPlayer);
-          showAlert(winningPlayer + ' Won The Game');
+          setModalMessage(winningPlayer + ' Won The Game');
+          setModalVisible(true);
         } else if (!newBoard.includes('question')) {
-          showAlert('The game is drawn');
+          setModalMessage('The game is drawn');
+          setModalVisible(true);
         } else {
           const updatedTouchedCells = [...touchedCells];
           updatedTouchedCells[aiMove] = true;
@@ -89,9 +94,11 @@ const EasyPlaying = () => {
       const winningPlayer = winGame(newBoard);
       if (winningPlayer !== '') {
         setWinner(winningPlayer);
-        showAlert(winningPlayer + ' Won The Game');
+        setModalMessage(winningPlayer + ' Won The Game');
+        setModalVisible(true);
       } else if (!newBoard.includes('question')) {
-        showAlert('The game is drawn');
+        setModalMessage('The game is drawn');
+        setModalVisible(true);
       } else {
         setIsCross(false);
         setBoard(newBoard);
@@ -172,20 +179,6 @@ const EasyPlaying = () => {
       console.log('No Winner Yet');
       return '';
     }
-  };
-
-  const showAlert = message => {
-    Alert.alert(
-      message,
-      '',
-      [
-        {
-          text: 'OK',
-          onPress: () => resetGame(),
-        },
-      ],
-      {backgroundColor: '#2B2B52', color: '#FFFFF'},
-    );
   };
   const chooseItemColor = (row, col) => {
     const index = row * 3 + col;
@@ -284,6 +277,22 @@ const EasyPlaying = () => {
           </View>
         ))}
       </View>
+      <ModalView
+        visible={modalVisible}
+        onCloseModal={() => {
+          setModalVisible(false);
+          resetGame();
+        }}>
+        <Text style={styles.modalText}>{modalMessage}</Text>
+        <TouchableOpacity
+          style={styles.modalButton}
+          onPress={() => {
+            setModalVisible(false);
+            resetGame();
+          }}>
+          <Text style={styles.buttonText}>Okay</Text>
+        </TouchableOpacity>
+      </ModalView>
     </View>
   );
 };
@@ -325,11 +334,41 @@ const styles = StyleSheet.create({
   cell: {
     width: Dimensions.get('window').width / 3.5,
     height: Dimensions.get('window').width / 3.5,
+    aspectRatio: 1,
     borderWidth: 2,
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+  },
+  modalText: {
+    fontSize: Dimensions.get('window').width * 0.05,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#C7EEFF',
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: '#C7EEFF',
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: '#279EFF',
+    paddingVertical: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    overflow: 'hidden',
+  },
+  buttonText: {
+    borderWidth: 1.5,
+    borderColor: '#279EFF',
+    backgroundColor: '#10316b',
+    color: '#C7EEFF',
+    fontSize: Dimensions.get('window').width * 0.05,
+    fontWeight: '600',
+    paddingHorizontal: '22%',
+    paddingVertical: 10,
+    borderRadius: 5,
   },
 });
 
