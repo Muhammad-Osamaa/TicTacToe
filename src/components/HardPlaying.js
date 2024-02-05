@@ -7,9 +7,11 @@ import {
   Alert,
   Pressable,
   Dimensions,
+  Animated,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import ModalView from './ModalView';
 
 function Square({value, onPress}) {
   const {width, height} = Dimensions.get('window');
