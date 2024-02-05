@@ -5,7 +5,6 @@ import {
   Pressable,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   Dimensions,
   Animated,
 } from 'react-native';
