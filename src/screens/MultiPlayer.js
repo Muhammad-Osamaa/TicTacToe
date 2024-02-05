@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import ModalView from '../components/ModalView';
 const {width, height} = Dimensions.get('screen');
 
 const MultiPlayer = () => {
@@ -24,6 +25,8 @@ const MultiPlayer = () => {
   const [fadeInAnim] = useState(new Animated.Value(0));
   const [bounceAnim] = useState(new Animated.Value(0.8));
   const [imageAnim] = useState(new Animated.Value(0));
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
 
   useEffect(() => {
     Animated.timing(fadeInAnim, {
@@ -41,35 +44,36 @@ const MultiPlayer = () => {
 
   useEffect(() => {
     if (winner !== '') {
-      showAlert(`${winner} Won the Game`, '', '#2B2B52');
+      setModalContent(`${winner} Won the Game`);
+      setModalVisible(true);
     }
   }, [winner]);
 
-  const showAlert = (title, message, backgroundColor) => {
-    Alert.alert(
-      title,
-      message,
-      [
-        {
-          text: 'OK',
-          onPress: () => {
-            resetGame();
-            Animated.spring(bounceAnim, {
-              toValue: 1,
-              friction: 1,
-              tension: 20,
-              useNativeDriver: true,
-            }).start();
-          },
-        },
-      ],
-      {
-        backgroundColor: backgroundColor,
-        color: '#FFFFF',
-        borderRadius: 10,
-      },
-    );
-  };
+  // const showAlert = (title, message, backgroundColor) => {
+  //   Alert.alert(
+  //     title,
+  //     message,
+  //     [
+  //       {
+  //         text: 'OK',
+  //         onPress: () => {
+  //           resetGame();
+  //           Animated.spring(bounceAnim, {
+  //             toValue: 1,
+  //             friction: 1,
+  //             tension: 20,
+  //             useNativeDriver: true,
+  //           }).start();
+  //         },
+  //       },
+  //     ],
+  //     {
+  //       backgroundColor: backgroundColor,
+  //       color: '#FFFFF',
+  //       borderRadius: 10,
+  //     },
+  //   );
+  // };
   const resetAnimation = () => {
     imageAnim.setValue(0);
   };
@@ -83,7 +87,8 @@ const MultiPlayer = () => {
       if (winningPlayer !== '') {
         setWinner(winningPlayer);
       } else if (!newBoard.includes('question')) {
-        showAlert('The game is drawn', '', 'red');
+        setModalContent('The Game is drawn');
+        setModalVisible(true);
       } else {
         setIsCross(!isCross);
       }
@@ -264,6 +269,22 @@ const MultiPlayer = () => {
           </View>
         ))}
       </View>
+      <ModalView
+        visible={modalVisible}
+        onCloseModal={() => {
+          setModalVisible(false);
+          resetGame();
+        }}>
+        <Text style={styles.modalText}>{modalContent}</Text>
+        <TouchableOpacity
+          style={styles.modalButton}
+          onPress={() => {
+            setModalVisible(false);
+            resetGame();
+          }}>
+          <Text style={styles.buttonText}>Okay</Text>
+        </TouchableOpacity>
+      </ModalView>
     </View>
   );
 };
@@ -319,6 +340,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#C7EEFF',
+    textAlign: 'center',
+  },
+  modalButton: {
+    // padding: 10,
+    paddingVertical: 5,
+    // paddingHorizontal: 20,
+    borderRadius: 5,
+    marginVertical: 5,
+    alignItems: 'center',
+    backgroundColor: '#279EFF',
+    borderColor: 'red',
+    borderWidth:1.5,
+  },
+  buttonText: {
+    color: '#C7EEFF',
+    fontWeight: 'bold',
+    borderColor: 'red',
+    borderWidth: 2,
+    paddingHorizontal:60,
+    paddingVertical: 5,
+    borderRadius: 3,
   },
 });
 export default MultiPlayer;
