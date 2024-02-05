@@ -7,16 +7,38 @@ import {
   TouchableOpacity,
   Alert,
   Dimensions,
+  Animated,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import ModalView from './ModalView';
 
 const MediumPlaying = () => {
   const navigation = useNavigation();
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
+  const [fadeInAnim] = useState(new Animated.Value(0));
+  const [bounceAnim] = useState(new Animated.Value(0.8));
+  const [imageAnim] = useState(new Animated.Value(0));
+  const [touchedCells, setTouchedCells] = useState(Array(9).fill(false));
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const {width, height} = Dimensions.get('window');
+
+  useEffect(() => {
+    Animated.timing(fadeInAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+    Animated.spring(bounceAnim, {
+      toValue: 1,
+      friction: 1,
+      tension: 20,
+      useNativeDriver: true,
+    }).start();
+  }, []);
   useEffect(() => {
     if (!isCross && winner === '') {
       // AI makes a move
@@ -44,12 +66,17 @@ const MediumPlaying = () => {
 
         if (winningPlayer) {
           setWinner(winningPlayer);
-          showAlert(winningPlayer + ' Won The Game');
+          setModalMessage(winningPlayer + 'Won the game');
+          setModalVisible(true);
         } else if (!newBoard.includes('question')) {
-          showAlert('The game is drawn');
+          setModalMessage('The Game is Drawn');
+          setModalVisible(true);
         } else {
+          const updatedTouchedCells = [...touchedCells];
+          updatedTouchedCells[aiMove] = true;
           setIsCross(true);
           setBoard(newBoard);
+          setTouchedCells(updatedTouchedCells);
         }
       }, 500); // Delay AI move for a better user experience
     }
@@ -64,13 +91,20 @@ const MediumPlaying = () => {
       const winningPlayer = winGame(newBoard);
       if (winningPlayer) {
         setWinner(winningPlayer);
-        showAlert(winningPlayer + ' Won The Game');
+        setModalMessage(winningPlayer + ' Won The Game');
+        setModalVisible(true);
       } else if (!newBoard.includes('question')) {
-        showAlert('The game is drawn');
+        setModalMessage('The game is drawn');
+        setModalVisible(true);
       } else {
         setIsCross(false);
         setBoard(newBoard);
       }
+      setTouchedCells(prevState => {
+        const updatedCells = [...prevState];
+        updatedCells[index] = true;
+        return updatedCells;
+      });
     }
   };
 
@@ -78,6 +112,7 @@ const MediumPlaying = () => {
     setIsCross(true);
     setBoard(Array(9).fill('question'));
     setWinner('');
+    setTouchedCells(Array(9).fill(false));
   };
 
   const winGame = currentBoard => {
@@ -105,48 +140,90 @@ const MediumPlaying = () => {
     }
 
     if (!currentBoard.includes('question')) {
-      showAlert('The game is drawn');
+      setModalMessage('The game is drawn');
+      setModalVisible(true);
     }
 
     return '';
   };
-  const showAlert = message => {
-    Alert.alert(
-      message,
-      '',
-      [
-        {
-          text: 'OK',
-          onPress: () => resetGame(),
-        },
-      ],
-      {backgroundColor: '#2B2B52', color: '#FFFFF'},
-    );
+  const chooseItemColor = (row, col) => {
+    const index = row * 3 + col;
+    const borderColor = getBorderColor(row, col);
+    switch (borderColor) {
+      case '#FF5733':
+        return '#FFE3DD';
+      case '#FFC300':
+        return '#FFF7DD';
+      case '#DAF7A6':
+        return '#F3FDE1';
+      case '#9A12B3':
+        return '#EDD7F2';
+      case '#3498DB':
+        return '#DDEDF9';
+      case '#E74C3C':
+        return '#FADAD6';
+      case '#F1C40F':
+        return '#FDF5D7';
+      case '#2ECC71':
+        return '#DCF6E7';
+      case '#8E44AD':
+        return '#F0E5F4';
+      default:
+        return '#E4E4E4';
+    }
   };
+  const getBorderColor = (row, col) => {
+    const index = row * 3 + col;
+    if (touchedCells[index]) {
+      return borderColor[index % borderColors.length];
+    } else {
+      return '#BEBEBE';
+    }
+  };
+  const borderColors = [
+    '#FF5733',
+    '#FFC300',
+    '#DAF7A6',
+    '#9A12B3',
+    '#3498DB',
+    '#E74C3C',
+    '#F1C40F',
+    '#2ECC71',
+    '#8E44AD',
+  ];
 
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.backButton}
-        onPress={() => navigation.navigate('Home')}>
-        <Entypo name="chevron-left" size={30} color="#C7EEFF" />
-      </Pressable>
-      <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
-        Medium Mode
-      </Text>
+      <View style={styles.mainContainer}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => navigation.navigate('Home')}>
+          <Entypo name="chevron-left" size={45} color="#C7EEFF" />
+        </Pressable>
+        <Text style={styles.headerText}>Medium Mode</Text>
+      </View>
+      <Animated.View style={[styles.main, {opacity: fadeInAnim}]}>
+        <Animated.Image
+          source={require('../assets/images/img1.png')}
+          style={{
+            width: width * 0.3,
+            height: height * 0.2,
+            transform: [{scale: bounceAnim}],
+          }}
+        />
+      </Animated.View>
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
-          <View key={row} style={{flexDirection: 'row'}}>
+          <View key={row} style={styles.row}>
             {[0, 1, 2].map(col => (
               <TouchableOpacity
                 key={col}
-                style={{
-                  width: width / 3.5,
-                  height: height / 7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                }}
+                style={[
+                  styles.cell,
+                  {
+                    backgroundColor: chooseItemColor(row, col),
+                    borderColor: getBorderColor(row, col),
+                  }]}
                 onPress={() => drawItem(row, col)}
                 disabled={board[row * 3 + col] !== 'question'}>
                 {board[row * 3 + col] === 'question' ? (
@@ -176,15 +253,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  mainContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+  },
   backButton: {
     position: 'absolute',
     top: 10,
     left: 10,
   },
+  headerText: {
+    color: '#C7EEFF',
+    fontSize: 28,
+    fontFamily: 'sans-serif-medium',
+    fontStyle: 'italic',
+  },
   board: {
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: 20,
+  },
+  row: {
+    flexDirection: 'row',
   },
 });
 
