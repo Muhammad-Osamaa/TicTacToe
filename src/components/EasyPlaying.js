@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   Dimensions,
+  Animated,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
@@ -16,7 +17,24 @@ const EasyPlaying = () => {
   const [board, setBoard] = useState(Array(9).fill('question'));
   const [isCross, setIsCross] = useState(true);
   const [winner, setWinner] = useState('');
-  const {width, height} = Dimensions.get('window');
+  const [fadeInAnim] = useState(new Animated.Value(0));
+  const [bounceAnim] = useState(new Animated.Value(0.8));
+  const [imageAnim] = useState(new Animated.Value(0));
+  const {width, height} = Dimensions.get('screen');
+
+  useEffect(() => {
+    Animated.timing(fadeInAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+    Animated.spring(bounceAnim, {
+      toValue: 1,
+      friction: 1,
+      tension: 20,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
   useEffect(() => {
     if (!isCross) {
@@ -54,7 +72,9 @@ const EasyPlaying = () => {
       }, 500); // Delay AI move for a better user experience
     }
   };
-
+  const resetAnimation = () => {
+    imageAnim.setValue(0);
+  };
   const drawItem = (row, col) => {
     const index = row * 3 + col;
     if (board[index] === 'question' && winner === '') {
@@ -159,14 +179,24 @@ const EasyPlaying = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.backButton}
-        onPress={() => navigation.navigate('Home')}>
-        <Entypo name="chevron-left" size={30} color="#C7EEFF" />
-      </Pressable>
-      <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
-        Easy Mode
-      </Text>
+      <View style={styles.mainContainer}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => navigation.navigate('Home')}>
+          <Entypo name="chevron-left" size={45} color="#C7EEFF" />
+        </Pressable>
+        <Text style={styles.headerText}>Easy Mode</Text>
+      </View>
+      <Animated.View style={[styles.main, {opacity: fadeInAnim}]}>
+        <Animated.Image
+          source={require('../assets/images/img1.png')}
+          style={{
+            width: width * 0.3,
+            height: height * 0.2,
+            transform: [{scale: bounceAnim}],
+          }}
+        />
+      </Animated.View>
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
           <View key={row} style={{flexDirection: 'row'}}>
@@ -206,13 +236,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#10316B',
+  },
+  mainContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 20,
   },
   backButton: {
     position: 'absolute',
-    top: 10,
-    left: 10,
+    left: 20,
+  },
+  headerText: {
+    color: '#C7EEFF',
+    fontSize: 28,
+    fontFamily: 'sans-serif-medium',
+    fontStyle: 'italic',
+  },
+  main: {
+    paddingTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   board: {
     flexDirection: 'column',
