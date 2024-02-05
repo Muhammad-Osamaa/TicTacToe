@@ -75,7 +75,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
         maximumValue={2}
         step={1}
         minimumTrackTintColor={sliderTrackColor}
-        thumbTintColor={sliderTrackColor}
+        thumbTintColor={PickColor}
         thumbStyle={styles.thumbStyle}
         trackStyle={styles.customTrackStyle}
         thumbProps={{children: <View />}}

@@ -14,6 +14,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ModalView from '../components/ModalView';
 import {useNavigation} from '@react-navigation/native';
+import DifficultyLevel from '../components/DifficultyLevel';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -59,6 +60,7 @@ const Home = () => {
   };
   const handleShowModal = () => {
     setIsModalVisible(true);
+    setSelectedDifficulty('Easy');
   };
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -124,12 +126,12 @@ const Home = () => {
           </View>
         </AnimatedTouchableOpacity>
       </View>
-      <ModalView
-        visible={isModalVisible}
-        onCloseModal={handleCloseModal}
-        onSelectDifficulty={handleDifficultySelect}
-        selectedDifficulty={selectedDifficulty}
-      />
+      <ModalView visible={isModalVisible} onCloseModal={handleCloseModal}>
+        <DifficultyLevel
+          onSelectDifficulty={handleDifficultySelect}
+          selectedDifficulty={selectedDifficulty}
+        />
+      </ModalView>
     </View>
   );
 };
