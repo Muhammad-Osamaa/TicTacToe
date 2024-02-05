@@ -20,6 +20,7 @@ const EasyPlaying = () => {
   const [fadeInAnim] = useState(new Animated.Value(0));
   const [bounceAnim] = useState(new Animated.Value(0.8));
   const [imageAnim] = useState(new Animated.Value(0));
+  const [touchedCells, setTouchedCells] = useState(Array(9).fill(false));
   const {width, height} = Dimensions.get('screen');
 
   useEffect(() => {
@@ -66,8 +67,12 @@ const EasyPlaying = () => {
         } else if (!newBoard.includes('question')) {
           showAlert('The game is drawn');
         } else {
+          const updatedTouchedCells = [...touchedCells];
+          updatedTouchedCells[aiMove] = true;
+
           setIsCross(true);
           setBoard(newBoard);
+          setTouchedCells(updatedTouchedCells);
         }
       }, 500); // Delay AI move for a better user experience
     }
@@ -91,6 +96,11 @@ const EasyPlaying = () => {
         setIsCross(false);
         setBoard(newBoard);
       }
+      setTouchedCells(prevState => {
+        const updatedCells = [...prevState];
+        updatedCells[index] = true;
+        return updatedCells;
+      });
     }
   };
 
@@ -98,6 +108,7 @@ const EasyPlaying = () => {
     setIsCross(true);
     setBoard(Array(9).fill('question'));
     setWinner('');
+    setTouchedCells(Array(9).fill(false));
   };
 
   const winGame = currentBoard => {
@@ -176,6 +187,51 @@ const EasyPlaying = () => {
       {backgroundColor: '#2B2B52', color: '#FFFFF'},
     );
   };
+  const chooseItemColor = (row, col) => {
+    const index = row * 3 + col;
+    const borderColor = getBorderColor(row, col);
+    switch (borderColor) {
+      case '#FF5733':
+        return '#FFE3DD';
+      case '#FFC300':
+        return '#FFF7DD';
+      case '#DAF7A6':
+        return '#F3FDE1';
+      case '#9A12B3':
+        return '#EDD7F2';
+      case '#3498DB':
+        return '#DDEDF9';
+      case '#E74C3C':
+        return '#FADAD6';
+      case '#F1C40F':
+        return '#FDF5D7';
+      case '#2ECC71':
+        return '#DCF6E7';
+      case '#8E44AD':
+        return '#F0E5F4';
+      default:
+        return '#E4E4E4';
+    }
+  };
+  const getBorderColor = (row, col) => {
+    const index = row * 3 + col;
+    if (touchedCells[index]) {
+      return borderColors[index % borderColors.length];
+    } else {
+      return '#BEBEBE';
+    }
+  };
+  const borderColors = [
+    '#FF5733',
+    '#FFC300',
+    '#DAF7A6',
+    '#9A12B3',
+    '#3498DB',
+    '#E74C3C',
+    '#F1C40F',
+    '#2ECC71',
+    '#8E44AD',
+  ];
 
   return (
     <View style={styles.container}>
@@ -199,17 +255,17 @@ const EasyPlaying = () => {
       </Animated.View>
       <View style={styles.board}>
         {[0, 1, 2].map(row => (
-          <View key={row} style={{flexDirection: 'row'}}>
+          <View key={row} style={styles.row}>
             {[0, 1, 2].map(col => (
               <TouchableOpacity
                 key={col}
-                style={{
-                  width: width / 3.5,
-                  height: height / 7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                }}
+                style={[
+                  styles.cell,
+                  {
+                    backgroundColor: chooseItemColor(row, col),
+                    borderColor: getBorderColor(row, col),
+                  },
+                ]}
                 onPress={() => drawItem(row, col)}
                 disabled={board[row * 3 + col] !== 'question'}>
                 {board[row * 3 + col] === 'question' ? (
@@ -219,7 +275,7 @@ const EasyPlaying = () => {
                     name={board[row * 3 + col]}
                     size={50}
                     color={
-                      board[row * 3 + col] === 'cross' ? '#FF3031' : '#45CE30'
+                      board[row * 3 + col] === 'cross' ? '#FF3333' : '#008200'
                     }
                   />
                 )}
@@ -259,9 +315,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   board: {
-    flexDirection: 'column',
+    paddingTop: 15,
     alignItems: 'center',
-    marginTop: 20,
+    justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  cell: {
+    width: Dimensions.get('window').width / 3.5,
+    height: Dimensions.get('window').width / 3.5,
+    borderWidth: 2,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
   },
 });
 
