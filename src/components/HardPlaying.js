@@ -56,9 +56,7 @@ export default function HardPlaying() {
   const navigation = useNavigation();
   const [board, setBoard] = useState(Array(9).fill(null));
   const {width, height} = Dimensions.get('window');
-
   const boardSize = Math.min(width, height) * 0.8;
-
   const calculateWinner = squares => {
     const lines = [
       [0, 1, 2],
