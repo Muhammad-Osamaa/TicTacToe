@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import ModalView from './ModalView';
 
 function Square({value, onPress}) {
   const {width, height} = Dimensions.get('window');
@@ -55,6 +56,8 @@ function Board({squares, onPress}) {
 export default function HardPlaying() {
   const navigation = useNavigation();
   const [board, setBoard] = useState(Array(9).fill(null));
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const {width, height} = Dimensions.get('window');
   const boardSize = Math.min(width, height) * 0.8;
   const calculateWinner = squares => {
@@ -157,17 +160,8 @@ export default function HardPlaying() {
   };
 
   const showAlert = (message, callback) => {
-    Alert.alert(
-      message,
-      '',
-      [
-        {
-          text: 'OK',
-          onPress: callback,
-        },
-      ],
-      {backgroundColor: '#2B2B52', color: '#FFFFF'},
-    );
+    setModalMessage(message);
+    setModalVisible(true);
   };
   const resetBoard = () => {
     setBoard(Array(9).fill(null));
@@ -186,6 +180,22 @@ export default function HardPlaying() {
       <View style={[styles.board, {width: boardSize, height: boardSize}]}>
         <Board squares={board} onPress={i => makeMove(i)} />
       </View>
+      <ModalView
+        visible={modalVisible}
+        onCloseModal={() => {
+          setModalVisible(false);
+          resetBoard();
+        }}>
+        <Text style={styles.modalText}>{modalMessage}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(false);
+            resetBoard();
+          }}
+          style={styles.modalButton}>
+          <Text style={styles.buttonText}>OK</Text>
+        </TouchableOpacity>
+      </ModalView>
     </View>
   );
 }
@@ -218,5 +228,35 @@ const styles = StyleSheet.create({
   squareText: {
     fontSize: 50,
     color: 'red',
+  },
+  modalText: {
+    fontSize: Dimensions.get('window').width * 0.05,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#C7EEFF',
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: '#C7EEFF',
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: '#279EFF',
+    paddingVertical: 2,
+    paddingHorizontal: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    overflow: 'hidden',
+  },
+  buttonText: {
+    borderWidth: 1.5,
+    borderColor: '#279EFF',
+    backgroundColor: '#10316b',
+    color: '#C7EEFF',
+    fontSize: Dimensions.get('window').width * 0.05,
+    fontWeight: '600',
+    paddingHorizontal: '15%',
+    paddingVertical: 5,
+    borderRadius: 5,
   },
 });
