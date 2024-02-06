@@ -12,21 +12,24 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import ModalView from './ModalView';
 
-function Square({value, onPress}) {
+function Square({value, onPress, isTouched}) {
+  const backgroundColor = isTouched ? borderColors[value] : 'gray';
+  const borderColor = isTouched ? borderColors[value] : '#fff';
   const {width, height} = Dimensions.get('window');
-  const squareSize = Math.min(width, height) * 0.25;
-  const iconMap = {
-    X: 'cross',
-    O: 'circle',
-  };
   return (
     <TouchableOpacity
-      style={[styles.square, {width: width / 3.5, height: height / 7}]}
+      style={[
+        styles.square,
+        {
+          backgroundColor: backgroundColor,
+          borderColor: borderColor,
+        },
+      ]}
       onPress={onPress}
       disabled={value !== null}>
       {value !== null && (
         <Entypo
-          name={iconMap[value]}
+          name={value === 'X' ? 'cross' : 'circle'}
           size={50}
           color={value === 'X' ? '#FF3031' : '#45CE30'}
         />
@@ -34,6 +37,17 @@ function Square({value, onPress}) {
     </TouchableOpacity>
   );
 }
+const borderColors = [
+  '#FF5733',
+  '#FFC300',
+  '#DAF7A6',
+  '#9A12B3',
+  '#3498DB',
+  '#E74C3C',
+  '#F1C40F',
+  '#2ECC71',
+  '#8E44AD',
+];
 
 function Board({squares, onPress}) {
   return (
@@ -45,6 +59,7 @@ function Board({squares, onPress}) {
               key={col}
               value={squares[row * 3 + col]}
               onPress={() => onPress(row * 3 + col)}
+              isTouched={squares[row * 3 + col] !== null}
             />
           ))}
         </View>
@@ -220,10 +235,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#10316B',
   },
   square: {
+    width: Dimensions.get('window').width / 3.5,
+    height: Dimensions.get('window').width / 3.5,
+    aspectRatio: 1,
+    borderWidth: 2,
+    margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    backgroundColor: '#10316B',
+    borderRadius: 10,
   },
   squareText: {
     fontSize: 50,
