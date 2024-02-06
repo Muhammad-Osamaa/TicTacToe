@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   Pressable,
   Dimensions,
 } from 'react-native';
@@ -12,10 +11,14 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import ModalView from './ModalView';
 
-function Square({value, onPress, isTouched}) {
-  const backgroundColor = isTouched ? borderColors[value] : 'gray';
-  const borderColor = isTouched ? borderColors[value] : '#fff';
-  const {width, height} = Dimensions.get('window');
+function Square({value, onPress, isTouched, index}) {
+  const [touched, setTouched] = useState(isTouched);
+  useEffect(() => {
+    setTouched(isTouched);
+  }, [isTouched]);
+
+  const backgroundColor = touched ? borderColors[value] : '#E4E4E4';
+  const borderColor = touched ? borderColors[value] : '#BEBEBE';
   return (
     <TouchableOpacity
       style={[
@@ -25,8 +28,11 @@ function Square({value, onPress, isTouched}) {
           borderColor: borderColor,
         },
       ]}
-      onPress={onPress}
-      disabled={value !== null}>
+      onPress={() => {
+        onPress(index);
+        setTouched(true);
+      }}
+      disabled={value !== null || touched}>
       {value !== null && (
         <Entypo
           name={value === 'X' ? 'cross' : 'circle'}
