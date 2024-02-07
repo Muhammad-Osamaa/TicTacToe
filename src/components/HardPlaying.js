@@ -66,6 +66,7 @@ function Board({squares, onPress}) {
               value={squares[row * 3 + col]}
               onPress={() => onPress(row * 3 + col)}
               isTouched={squares[row * 3 + col] !== null}
+              index={row * 3 + col}
             />
           ))}
         </View>
