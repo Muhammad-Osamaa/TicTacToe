@@ -21,3 +21,21 @@ const Modalize = ({visible, onCloseModal, children}) => {
     </Modal>
   );
 };
+const styles = StyleSheet.create({
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+});
+export default Modalize;
