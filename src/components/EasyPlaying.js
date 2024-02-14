@@ -224,13 +224,13 @@ const EasyPlaying = () => {
     '#2ECC71',
     '#8E44AD',
   ];
-
+  const handleBackButton = () => {
+    navigation.navigate('Home');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
-        <Pressable
-          style={styles.backButton}
-          onPress={() => navigation.navigate('Home')}>
+        <Pressable style={styles.backButton} onPress={handleBackButton}>
           <Entypo name="chevron-left" size={45} color="#C7EEFF" />
         </Pressable>
         <Text style={styles.headerText}>Easy Mode</Text>
