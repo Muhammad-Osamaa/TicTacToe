@@ -11,6 +11,7 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import ModalView from '../components/ModalView';
+import Modalize from '../components/Modalize';
 const {width, height} = Dimensions.get('screen');
 
 const MultiPlayer = () => {
@@ -258,6 +259,22 @@ const MultiPlayer = () => {
           <Text style={styles.buttonText}>Okay</Text>
         </TouchableOpacity>
       </ModalView>
+      <Modalize
+        setvisible={modalVisible}
+        onCloseModal={() => {
+          setModalVisible(false);
+          resetGame();
+        }}>
+        <Text style={styles.modalText}>{modalContent}</Text>
+        <TouchableOpacity
+          style={styles.modalButton}
+          onPress={() => {
+            setModalVisible(false);
+            resetGame();
+          }}>
+          <Text style={styles.buttonText}>Okay</Text>
+        </TouchableOpacity>
+      </Modalize>
     </View>
   );
 };
