@@ -11,7 +11,6 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import ModalView from '../components/ModalView';
-import Modalize from '../components/Modalize';
 const {width, height} = Dimensions.get('screen');
 
 const MultiPlayer = () => {
