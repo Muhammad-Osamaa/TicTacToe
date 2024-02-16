@@ -259,22 +259,6 @@ const MultiPlayer = () => {
           <Text style={styles.buttonText}>Okay</Text>
         </TouchableOpacity>
       </ModalView>
-      <Modalize
-        setvisible={modalVisible}
-        onCloseModal={() => {
-          setModalVisible(false);
-          resetGame();
-        }}>
-        <Text style={styles.modalText}>{modalContent}</Text>
-        <TouchableOpacity
-          style={styles.modalButton}
-          onPress={() => {
-            setModalVisible(false);
-            resetGame();
-          }}>
-          <Text style={styles.buttonText}>Okay</Text>
-        </TouchableOpacity>
-      </Modalize>
     </View>
   );
 };
