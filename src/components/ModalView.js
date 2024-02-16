@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Modal, TouchableHighlight, StyleSheet} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const ModalView = ({visible, onCloseModal, children}) => {
+const ModalView = ({visible, showCloseButton, onCloseModal, children}) => {
   return (
     <Modal
       transparent={true}
@@ -12,13 +12,15 @@ const ModalView = ({visible, onCloseModal, children}) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.secondModalContent}>
-            <View style={styles.closeButtonContainer}>
-              <TouchableHighlight
-                onPress={onCloseModal}
-                style={styles.closeButton}>
-                <Entypo size={30} name="circle-with-cross" color="#C7EEFF" />
-              </TouchableHighlight>
-            </View>
+            {showCloseButton && (
+              <View style={styles.closeButtonContainer}>
+                <TouchableHighlight
+                  onPress={onCloseModal}
+                  style={styles.closeButton}>
+                  <Entypo size={30} name="circle-with-cross" color="#C7EEFF" />
+                </TouchableHighlight>
+              </View>
+            )}
             {children}
           </View>
         </View>
