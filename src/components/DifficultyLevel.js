@@ -42,20 +42,20 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
     localDifficulty === 'Easy'
       ? '#C7EEFF'
       : localDifficulty === 'Medium'
-      ? '#FFBB5C'
+      ? '#fffc5c'
       : '#FF4500';
   const sliderTrackColor =
     localDifficulty === 'Easy'
       ? '#C7EEFF'
       : localDifficulty === 'Medium'
-      ? '#FFBB5C'
+      ? '#fffc5c'
       : '#FF4500';
 
   let PickColor =
     localDifficulty === 'Easy'
       ? '#C7EEFF'
       : localDifficulty === 'Medium'
-      ? '#FFBB5C'
+      ? '#fffc5c'
       : 'red';
   return (
     <View style={styles.container}>
