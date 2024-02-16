@@ -17,14 +17,43 @@ function Square({value, onPress, isTouched, index}) {
     setTouched(isTouched);
   }, [isTouched]);
 
-  const backgroundColor = touched ? borderColors[value] : '#E4E4E4';
-  const borderColor = touched ? borderColors[value] : '#BEBEBE';
+  const chooseItemColor = (row, col) => {
+    const index = row * 3 + col;
+    const borderColor = borderColors[index % borderColors.length];
+    switch (borderColor) {
+      case '#FF5733':
+        return '#FFE3DD';
+      case '#FFC300':
+        return '#FFF7DD';
+      case '#DAF7A6':
+        return '#F3FDE1';
+      case '#9A12B3':
+        return '#EDD7F2';
+      case '#3498DB':
+        return '#DDEDF9';
+      case '#E74C3C':
+        return '#FADAD6';
+      case '#F1C40F':
+        return '#FDF5D7';
+      case '#2ECC71':
+        return '#DCF6E7';
+      case '#8E44AD':
+        return '#F0E5F4';
+      default:
+        return '#E4E4E4';
+    }
+  };
+  const borderColor = touched
+    ? borderColors[index % borderColors.length]
+    : '#E4E4E4';
   return (
     <TouchableOpacity
       style={[
         styles.square,
         {
-          backgroundColor: backgroundColor,
+          backgroundColor: touched
+            ? chooseItemColor(Math.floor(index / 3), index % 3)
+            : '#E4E4E4',
           borderColor: borderColor,
         },
       ]}
