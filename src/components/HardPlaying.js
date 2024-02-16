@@ -11,7 +11,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import ModalView from './ModalView';
 
-function Square({value, onPress, isTouched, index}) {
+function Square({value, onPress, isTouched, index, borderColor}) {
   const [touched, setTouched] = useState(isTouched);
   useEffect(() => {
     setTouched(isTouched);
@@ -43,7 +43,7 @@ function Square({value, onPress, isTouched, index}) {
         return '#E4E4E4';
     }
   };
-  const borderColor = touched
+  const squareBorderColor = touched
     ? borderColors[index % borderColors.length]
     : '#E4E4E4';
   return (
@@ -54,7 +54,7 @@ function Square({value, onPress, isTouched, index}) {
           backgroundColor: touched
             ? chooseItemColor(Math.floor(index / 3), index % 3)
             : '#E4E4E4',
-          borderColor: borderColor,
+          borderColor: squareBorderColor,
         },
       ]}
       onPress={() => {
@@ -66,7 +66,7 @@ function Square({value, onPress, isTouched, index}) {
         <Entypo
           name={value === 'X' ? 'cross' : 'circle'}
           size={50}
-          color={value === 'X' ? '#FF3031' : '#45CE30'}
+          color={squareBorderColor}
         />
       )}
     </TouchableOpacity>
@@ -96,6 +96,7 @@ function Board({squares, onPress}) {
               onPress={() => onPress(row * 3 + col)}
               isTouched={squares[row * 3 + col] !== null}
               index={row * 3 + col}
+              borderColor={borderColors[(row * 3 + col) % borderColors.length]}
             />
           ))}
         </View>
