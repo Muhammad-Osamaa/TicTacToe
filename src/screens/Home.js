@@ -126,7 +126,10 @@ const Home = () => {
           </View>
         </AnimatedTouchableOpacity>
       </View>
-      <ModalView visible={isModalVisible} onCloseModal={handleCloseModal}>
+      <ModalView
+        visible={isModalVisible}
+        showCloseButton={true}
+        onCloseModal={handleCloseModal}>
         <DifficultyLevel
           onSelectDifficulty={handleDifficultySelect}
           selectedDifficulty={selectedDifficulty}
