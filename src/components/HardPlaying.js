@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   Dimensions,
+  Animated
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
@@ -111,7 +112,23 @@ export default function HardPlaying() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const {width, height} = Dimensions.get('window');
+  const [fadeInAnim] = useState(new Animated.Value(0));
+  const [bounceAnim] = useState(new Animated.Value(0.8));
+  const [imageAnim] = useState(new Animated.Value(0));
   const boardSize = Math.min(width, height) * 0.8;
+  useEffect(() => {
+    Animated.timing(fadeInAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+    Animated.spring(bounceAnim, {
+      toValue: 1,
+      friction: 1,
+      tension: 20,
+      useNativeDriver: true,
+    }).start();
+  }, []);
   const calculateWinner = squares => {
     const lines = [
       [0, 1, 2],
@@ -223,12 +240,22 @@ export default function HardPlaying() {
   };
   return (
     <View style={styles.container}>
-      <Pressable style={styles.backButton} onPress={handleBackButton}>
-        <Entypo name="chevron-left" size={45} color="#C7EEFF" />
-      </Pressable>
-      <Text style={{color: '#C7EEFF', fontSize: 30, padding: 30, marginTop: 5}}>
-        Hard Mode
-      </Text>
+      <View style={styles.mainContainer}>
+        <Pressable style={styles.backButton} onPress={handleBackButton}>
+          <Entypo name="chevron-left" size={45} color="#C7EEFF" />
+        </Pressable>
+        <Text style={styles.headerText}>Hard Mode</Text>
+      </View>
+      <Animated.View style={[styles.main, {opacity: fadeInAnim}]}>
+        <Animated.Image
+          source={require('../assets/images/img1.png')}
+          style={{
+            width: width * 0.3,
+            height: height * 0.2,
+            transform: [{scale: bounceAnim}],
+          }}
+        />
+      </Animated.View>
       <View style={[styles.board, {width: boardSize, height: boardSize}]}>
         <Board squares={board} onPress={i => makeMove(i)} />
       </View>
@@ -256,20 +283,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#10316B',
+  },
+  mainContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 20,
   },
   backButton: {
     position: 'absolute',
-    top: 10,
-    left: 10,
+    left: 20,
+  },
+  headerText: {
+    color: '#C7EEFF',
+    fontSize: 28,
+    fontFamily: 'sans-serif-medium',
+    fontStyle: 'italic',
+  },
+  main: {
+    paddingTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   board: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    paddingTop: 15,
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    backgroundColor: '#10316B',
   },
   square: {
     width: Dimensions.get('window').width / 3.5,
