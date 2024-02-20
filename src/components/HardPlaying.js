@@ -46,7 +46,7 @@ function Square({value, onPress, isTouched, index, borderColor}) {
   };
   const squareBorderColor = touched
     ? borderColors[index % borderColors.length]
-    : '#E4E4E4';
+    : '#EEF5FF';
   return (
     <TouchableOpacity
       style={[
@@ -54,7 +54,7 @@ function Square({value, onPress, isTouched, index, borderColor}) {
         {
           backgroundColor: touched
             ? chooseItemColor(Math.floor(index / 3), index % 3)
-            : '#E4E4E4',
+            : '#EEF5FF',
           borderColor: squareBorderColor,
         },
       ]}
@@ -301,12 +301,12 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   main: {
-    paddingTop: 20,
+    paddingTop: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
   board: {
-    paddingTop: 25,
+    paddingTop: 35,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -323,7 +323,6 @@ const styles = StyleSheet.create({
   },
   squareText: {
     fontSize: 50,
-    color: 'red',
   },
   modalText: {
     fontSize: Dimensions.get('window').width * 0.05,
