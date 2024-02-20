@@ -306,9 +306,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   board: {
-    paddingTop: 15,
+    paddingTop: 25,
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
   },
   square: {
     width: Dimensions.get('window').width / 3.5,
