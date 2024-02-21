@@ -202,7 +202,7 @@ const EasyPlaying = () => {
       case '#8E44AD':
         return '#F0E5F4';
       default:
-        return '#E4E4E4';
+        return '#EEF5FF';
     }
   };
   const getBorderColor = (row, col) => {
@@ -210,7 +210,7 @@ const EasyPlaying = () => {
     if (touchedCells[index]) {
       return borderColors[index % borderColors.length];
     } else {
-      return '#BEBEBE';
+      return '#EEF5FF';
     }
   };
   const borderColors = [
