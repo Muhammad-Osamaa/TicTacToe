@@ -11,15 +11,6 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
   useEffect(() => {
     setLocalDifficulty(selectedDifficulty || 'Easy');
   }, [selectedDifficulty]);
-  // useEffect(() => {
-  //   if (localDifficulty === 'Easy') {
-  //     setTextColor('#C7EEFF');
-  //   } else if (localDifficulty === 'Medium') {
-  //     setTextColor('#FFBB5C');
-  //   } else {
-  //     setTextColor('red');
-  //   }
-  // }, [localDifficulty]);
   const handleDifficultyChange = value => {
     setLocalDifficulty(value === 0 ? 'Easy' : value === 1 ? 'Medium' : 'Hard');
   };
@@ -44,38 +35,30 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
       : localDifficulty === 'Medium'
       ? '#fffc5c'
       : '#FF4500';
-  const sliderTrackColor =
-    localDifficulty === 'Easy'
-      ? '#C7EEFF'
-      : localDifficulty === 'Medium'
-      ? '#fffc5c'
-      : '#FF4500';
-
-  let PickColor =
-    localDifficulty === 'Easy'
-      ? '#C7EEFF'
-      : localDifficulty === 'Medium'
-      ? '#fffc5c'
-      : 'red';
+  const emojiName =
+    localDifficulty == 'Easy'
+      ? 'emoji-happy'
+      : localDifficulty == 'Medium'
+      ? 'emoji-flirt'
+      : 'emoji-sad';
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Difficulty Level</Text>
 
       <Entypo
-        name="emoji-happy"
+        name={emojiName}
         size={70}
         color={emojiColor}
         style={styles.emoji}
       />
-
       {/* Slider */}
       <Slider
         style={styles.slider}
         minimumValue={0}
         maximumValue={2}
         step={1}
-        minimumTrackTintColor={sliderTrackColor}
-        thumbTintColor={PickColor}
+        minimumTrackTintColor={emojiColor}
+        thumbTintColor={emojiColor}
         thumbStyle={styles.thumbStyle}
         trackStyle={styles.customTrackStyle}
         thumbProps={{children: <View />}}
@@ -88,7 +71,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
         style={[
           styles.difficultyText,
           {
-            color: PickColor,
+            color: emojiColor,
           },
         ]}>
         {localDifficulty}
@@ -150,21 +133,23 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 10,
     bottom: -35,
+    overflow: 'visible',
   },
   button: {
     backgroundColor: '#279EFF',
-    borderRadius: 12,
-    borderWidth: 2,
+    borderRadius: 10,
+    borderWidth: 4,
     borderColor: '#C7EEFF',
     paddingHorizontal: 2,
     paddingVertical: 2,
+    overflow: 'hidden',
   },
   buttonText: {
     backgroundColor: '#10316B',
     color: '#C7EEFF',
     fontSize: 18,
     fontWeight: 'bold',
-    paddingHorizontal: 35,
+    paddingHorizontal: 45,
     paddingVertical: 10,
     borderRadius: 6,
   },
