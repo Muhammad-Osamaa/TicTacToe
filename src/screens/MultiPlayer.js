@@ -167,7 +167,7 @@ const MultiPlayer = () => {
       case '#8E44AD':
         return '#F0E5F4';
       default:
-        return '#E4E4E4';
+        return '#EEF5FF';
     }
   };
   const getBorderColor = (row, col) => {
@@ -232,10 +232,18 @@ const MultiPlayer = () => {
                 onPress={() => drawItem(row, col)}
                 disabled={board[row * 3 + col] !== 'question'}>
                 {board[row * 3 + col] === 'cross' && (
-                  <Entypo name="cross" size={cellSize / 2} color="#FF3333" />
+                  <Entypo
+                    name="cross"
+                    size={cellSize / 2}
+                    color={getBorderColor(row, col)}
+                  />
                 )}
                 {board[row * 3 + col] === 'circle' && (
-                  <Entypo name="circle" size={cellSize / 2} color="#008200" />
+                  <Entypo
+                    name="circle"
+                    size={cellSize / 2}
+                    color={getBorderColor(row, col)}
+                  />
                 )}
               </TouchableOpacity>
             ))}
@@ -300,8 +308,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cell: {
-    width: width / 4,
-    height: width / 4,
+    width: width / 3.5,
+    height: width / 3.5,
     borderWidth: 2,
     margin: 5,
     alignItems: 'center',
