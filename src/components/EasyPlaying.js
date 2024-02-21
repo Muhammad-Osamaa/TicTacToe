@@ -267,7 +267,9 @@ const EasyPlaying = () => {
                     name={board[row * 3 + col]}
                     size={50}
                     color={
-                      board[row * 3 + col] === 'cross' ? '#FF3333' : '#008200'
+                      board[row * 3 + col] === 'cross'
+                        ? getBorderColor(row, col)
+                        : '#008200'
                     }
                   />
                 )}
