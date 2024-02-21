@@ -234,7 +234,9 @@ const MediumPlaying = () => {
                     name={board[row * 3 + col]}
                     size={50}
                     color={
-                      board[row * 3 + col] === 'cross' ? '#FF3031' : '#45CE30'
+                      board[row * 3 + col] === 'cross'
+                        ? getBorderColor(row, col)
+                        : getBorderColor(row, col)
                     }
                   />
                 )}
@@ -276,7 +278,6 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    //top: 10,
     left: 20,
   },
   headerText: {
