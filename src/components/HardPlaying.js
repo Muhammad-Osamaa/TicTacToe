@@ -197,13 +197,10 @@ export default function HardPlaying() {
 
   const makeMove = async i => {
     const newBoard = [...board];
-
     if (calculateWinner(newBoard) || newBoard[i]) {
       return;
     }
-
     newBoard[i] = 'X';
-
     setBoard(newBoard);
 
     const winner = calculateWinner(newBoard);
@@ -213,17 +210,17 @@ export default function HardPlaying() {
       showAlert("It's a Tie!", resetBoard);
     } else {
       const bestSquare = findBestSquare(newBoard, 'O');
-
       if (bestSquare !== -1) {
         newBoard[bestSquare] = 'O';
+        //setTimeout(() => {
         setBoard(newBoard);
-
         const newWinner = calculateWinner(newBoard);
         if (newWinner) {
           showAlert(`${newWinner} Won The Game`, resetBoard);
         } else if (isBoardFilled(newBoard)) {
           showAlert("It's a Tie!", resetBoard);
         }
+        //  }, 100);
       }
     }
   };
