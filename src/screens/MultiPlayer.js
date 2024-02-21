@@ -175,7 +175,7 @@ const MultiPlayer = () => {
     if (touchedCells[index]) {
       return borderColors[index % borderColors.length];
     } else {
-      return '#BEBEBE';
+      return '#EEF5FF';
     }
   };
   const borderColors = [
