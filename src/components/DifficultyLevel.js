@@ -40,7 +40,7 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
       ? 'emoji-happy'
       : localDifficulty == 'Medium'
       ? 'emoji-flirt'
-      : 'emoji-sad';
+      : 'emoji-neutral';
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Difficulty Level</Text>
