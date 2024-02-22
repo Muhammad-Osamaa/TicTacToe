@@ -8,6 +8,7 @@ import {
   BackHandler,
   Animated,
   Easing,
+  Dimensions,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -21,25 +22,67 @@ const Home = () => {
   const [scaleValue] = useState(new Animated.Value(1));
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = useState('easy');
+  const {width, height} = Dimensions.get('window');
+  const scaleValue1 = new Animated.Value(1);
+  const scaleValue2 = new Animated.Value(1);
+  const scaleValue3 = new Animated.Value(1);
 
   const startRingAnimation = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(scaleValue, {
-          toValue: 1.1,
-          duration: 1000,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-        Animated.timing(scaleValue, {
-          toValue: 1,
-          duration: 750,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start();
+    Animated.parallel([
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scaleValue1, {
+            toValue: 1.1,
+            duration: 1000,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scaleValue1, {
+            toValue: 1,
+            duration: 750,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ]),
+      ),
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scaleValue2, {
+            toValue: 0.8,
+            duration: 1000,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scaleValue2, {
+            toValue: 1,
+            duration: 750,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ]),
+      ),
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scaleValue3, {
+            toValue: 0.9,
+            duration: 1000,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scaleValue3, {
+            toValue: 1,
+            duration: 750,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+        ]),
+      ),
+
+    ]).start();
   };
+  useEffect(()=>{
+    startRingAnimation();
+  },[]);
   const ringScale = {transform: [{scale: scaleValue}]};
   const handleExit = () => {
     Alert.alert(
@@ -91,6 +134,23 @@ const Home = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Tic Tac Toe</Text>
       </View>
+      <Animated.View style={[styles.main, {transform: [{scale: scaleValue}]}]}>
+        <Animated.Image
+          source={require('../assets/images/img5.png')}
+          style={{
+            width: width * 0.4,
+            height: height * 0.2,
+            transform: [
+              {scaleX: scaleValue1},
+              {scaleY: scaleValue1},
+              {scaleX: scaleValue2},
+              {scaleY: scaleValue2},
+              {scaleX: scaleValue3},
+              {scaleY: scaleValue3},
+            ],
+          }}
+        />
+      </Animated.View>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
           <AnimatedTouchableOpacity
@@ -144,18 +204,21 @@ const AnimatedTouchableOpacity =
 
 const styles = StyleSheet.create({
   container: {
-    flex: 3,
+    flex: 1,
     backgroundColor: '#10316B',
   },
   header: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
+    paddingTop: '5%', 
   },
   headerText: {
     fontSize: 48,
     color: '#C7EEFF',
+  },
+  main: {
+    paddingTop: '20%',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   buttonContainer: {
     flex: 1,
@@ -188,7 +251,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#C7EEFF',
     borderColor: '#279EFF',
-    shadowColor: '#b3bba8',
+    shadowColor: '#C7EEFF',
     shadowOffset: {width: 0, height: 0},
     shadowOpacity: 0.64,
     shadowRadius: 20,
