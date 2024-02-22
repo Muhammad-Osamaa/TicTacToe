@@ -19,11 +19,13 @@ import {useNavigation} from '@react-navigation/native';
 import DifficultyLevel from '../components/DifficultyLevel';
 
 const images = [
-  require('../assets/images/img1.png'),
   require('../assets/images/img2.png'),
   require('../assets/images/img3.png'),
   require('../assets/images/img4.png'),
   require('../assets/images/img5.png'),
+  require('../assets/images/img6.png'),
+  require('../assets/images/img7.png'),
+  require('../assets/images/img8.png'),
 ];
 const Home = () => {
   const navigation = useNavigation();
@@ -39,7 +41,7 @@ const Home = () => {
     const animate = () => {
       Animated.timing(imageAnimation, {
         toValue: index + 1,
-        duration: 1000,
+        duration: 2000,
         easing: Easing.linear,
         useNativeDriver: true,
       }).start(({finished}) => {
@@ -99,6 +101,7 @@ const Home = () => {
   ];
   const buttonScale = {transform: [{scale: buttonScaleValue}]};
   const handleExit = () => {
+    console.log('osama');
     Alert.alert(
       'Exit App',
       'Are You Sure Want to exit the game?',
@@ -116,6 +119,7 @@ const Home = () => {
     );
   };
   const handleShowModal = () => {
+    console.log('osama');
     setIsModalVisible(true);
     setSelectedDifficulty('Easy');
   };
@@ -155,14 +159,16 @@ const Home = () => {
             width: width * 0.4,
             height: height * 0.2,
             aspectRatio: 1,
+            resizeMode: 'contain',
           }}
         />
       </Animated.View>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
-          <AnimatedTouchableOpacity
+          <TouchableOpacity
             style={[styles.button, styles.buttonWrapper, buttonScale]}
             onPress={() => {
+              console.log('osama');
               startButtonAnimation();
               navigation.navigate('MultiPlayer');
             }}>
@@ -171,9 +177,9 @@ const Home = () => {
               <Text style={styles.buttonText}>VS </Text>
               <Entypo name="user" size={30} color="#C7EEFF" />
             </View>
-          </AnimatedTouchableOpacity>
+          </TouchableOpacity>
           <View style={styles.buttonSpacer} />
-          <AnimatedTouchableOpacity
+          <TouchableOpacity
             style={[styles.button, styles.buttonWrapper, buttonScale]}
             onPress={handleShowModal}>
             <View style={styles.buttonContent}>
@@ -181,17 +187,17 @@ const Home = () => {
               <Text style={styles.buttonText}>VS </Text>
               <Foundation name="laptop" size={30} color="#C7EEFF" />
             </View>
-          </AnimatedTouchableOpacity>
+          </TouchableOpacity>
         </View>
         <View style={styles.buttonSpacer} />
-        <AnimatedTouchableOpacity
+        <TouchableOpacity
           style={[styles.button, buttonScale]}
           onPress={handleExit}>
           <View style={styles.buttonContent}>
             <MaterialIcons name="exit-to-app" size={30} color="#C7EEFF" />
             <Text style={styles.buttonText}>Exit</Text>
           </View>
-        </AnimatedTouchableOpacity>
+        </TouchableOpacity>
       </View>
       <ModalView
         visible={isModalVisible}
@@ -205,10 +211,6 @@ const Home = () => {
     </View>
   );
 };
-
-const AnimatedTouchableOpacity =
-  Animated.createAnimatedComponent(TouchableOpacity);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -223,7 +225,8 @@ const styles = StyleSheet.create({
     color: '#C7EEFF',
   },
   main: {
-    paddingTop: '20%',
+    flex: 1,
+    paddingTop: '15%',
     alignItems: 'center',
     alignSelf: 'center',
   },
