@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 25,
-    fontWeight:'600',
-    justifyContent:'center',
-    textAlign:'center',
-    alignSelf:'center',
+    fontWeight: '600',
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignSelf: 'center',
     top: -25,
   },
   slider: {

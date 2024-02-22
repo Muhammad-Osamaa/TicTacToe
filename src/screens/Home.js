@@ -101,7 +101,6 @@ const Home = () => {
   ];
   const buttonScale = {transform: [{scale: buttonScaleValue}]};
   const handleExit = () => {
-    console.log('osama');
     Alert.alert(
       'Exit App',
       'Are You Sure Want to exit the game?',
@@ -119,7 +118,6 @@ const Home = () => {
     );
   };
   const handleShowModal = () => {
-    console.log('osama');
     setIsModalVisible(true);
     setSelectedDifficulty('Easy');
   };
@@ -168,7 +166,6 @@ const Home = () => {
           <TouchableOpacity
             style={[styles.button, styles.buttonWrapper, buttonScale]}
             onPress={() => {
-              console.log('osama');
               startButtonAnimation();
               navigation.navigate('MultiPlayer');
             }}>
