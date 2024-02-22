@@ -23,67 +23,54 @@ const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = useState('easy');
   const {width, height} = Dimensions.get('window');
+  const [imageScaleValue] = useState(new Animated.Value(1));
+  const [buttonScaleValue] = useState(new Animated.Value(1));
   const scaleValue1 = new Animated.Value(1);
   const scaleValue2 = new Animated.Value(1);
   const scaleValue3 = new Animated.Value(1);
 
-  const startRingAnimation = () => {
-    Animated.parallel([
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(scaleValue1, {
-            toValue: 1.1,
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(scaleValue1, {
-            toValue: 1,
-            duration: 750,
-            easing: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ]),
-      ),
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(scaleValue2, {
-            toValue: 0.8,
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(scaleValue2, {
-            toValue: 1,
-            duration: 750,
-            easing: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ]),
-      ),
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(scaleValue3, {
-            toValue: 0.9,
-            duration: 1000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(scaleValue3, {
-            toValue: 1,
-            duration: 750,
-            easing: Easing.linear,
-            useNativeDriver: true,
-          }),
-        ]),
-      ),
-
-    ]).start();
+  const startImageAnimation = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(imageScaleValue, {
+          toValue: 1.1,
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(imageScaleValue, {
+          toValue: 1,
+          duration: 750,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  };
+  const startButtonAnimation = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(buttonScaleValue, {
+          toValue: 0.9,
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(buttonScaleValue, {
+          toValue: 1,
+          duration: 750,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
   };
   useEffect(()=>{
-    startRingAnimation();
+    startImageAnimation();
+    startButtonAnimation();
   },[]);
-  const ringScale = {transform: [{scale: scaleValue}]};
+  const imageScale = {transform: [{scale: imageScaleValue}]};
+  const buttonScale = {transform: [{scale: buttonScaleValue}]};
   const handleExit = () => {
     Alert.alert(
       'Exit App',
@@ -134,29 +121,21 @@ const Home = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Tic Tac Toe</Text>
       </View>
-      <Animated.View style={[styles.main, {transform: [{scale: scaleValue}]}]}>
+      <Animated.View style={[styles.main, imageScale]}>
         <Animated.Image
           source={require('../assets/images/img5.png')}
           style={{
             width: width * 0.4,
             height: height * 0.2,
-            transform: [
-              {scaleX: scaleValue1},
-              {scaleY: scaleValue1},
-              {scaleX: scaleValue2},
-              {scaleY: scaleValue2},
-              {scaleX: scaleValue3},
-              {scaleY: scaleValue3},
-            ],
           }}
         />
       </Animated.View>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
           <AnimatedTouchableOpacity
-            style={[styles.button, styles.buttonWrapper, ringScale]}
+            style={[styles.button, styles.buttonWrapper, buttonScale]}
             onPress={() => {
-              startRingAnimation();
+              startButtonAnimation();
               navigation.navigate('MultiPlayer');
             }}>
             <View style={styles.buttonContent}>
@@ -167,7 +146,7 @@ const Home = () => {
           </AnimatedTouchableOpacity>
           <View style={styles.buttonSpacer} />
           <AnimatedTouchableOpacity
-            style={[styles.button, styles.buttonWrapper, ringScale]}
+            style={[styles.button, styles.buttonWrapper, buttonScale]}
             onPress={handleShowModal}>
             <View style={styles.buttonContent}>
               <Entypo name="user" size={30} color="#C7EEFF" />
@@ -178,7 +157,7 @@ const Home = () => {
         </View>
         <View style={styles.buttonSpacer} />
         <AnimatedTouchableOpacity
-          style={[styles.button, ringScale]}
+          style={[styles.button, buttonScale]}
           onPress={handleExit}>
           <View style={styles.buttonContent}>
             <MaterialIcons name="exit-to-app" size={30} color="#C7EEFF" />
