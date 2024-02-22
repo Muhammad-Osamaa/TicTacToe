@@ -247,7 +247,7 @@ export default function HardPlaying() {
         <Animated.Image
           source={require('../assets/images/img1.png')}
           style={{
-            width: width * 0.3,
+            width: width * 0.4,
             height: height * 0.2,
             transform: [{scale: bounceAnim}],
           }}
