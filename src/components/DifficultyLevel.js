@@ -43,11 +43,11 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
       : 'emoji-neutral';
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Difficulty Level</Text>
+      <Text style={[styles.header, {color: emojiColor}]}>Difficulty Level</Text>
 
       <Entypo
         name={emojiName}
-        size={70}
+        size={90}
         color={emojiColor}
         style={styles.emoji}
       />
@@ -87,21 +87,21 @@ const DifficultyLevel = ({onSelectDifficulty, selectedDifficulty}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#10316B',
-    paddingVertical: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
     borderRadius: 10,
     alignItems: 'center',
   },
   header: {
-    fontSize: 24,
-    color: '#C7EEFF',
-    fontFamily: 'sans-serif-thin',
-    fontWeight: 'bold',
-    top: -45,
-    left: -5,
-    position: 'relative',
+    fontSize: 25,
+    fontWeight:'600',
+    justifyContent:'center',
+    textAlign:'center',
+    alignSelf:'center',
+    top: -25,
   },
   slider: {
-    width: '80%',
+    width: '75%',
     alignSelf: 'center',
     marginTop: 30,
   },
@@ -117,9 +117,6 @@ const styles = StyleSheet.create({
   customTrackStyle: {
     height: 40,
     borderRadius: 20,
-  },
-  emoji: {
-    marginTop: -40,
   },
   difficultyText: {
     color: '#C7EEFF',
