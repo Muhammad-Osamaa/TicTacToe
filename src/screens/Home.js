@@ -9,6 +9,7 @@ import {
   Animated,
   Easing,
   Dimensions,
+  Image,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -17,36 +18,49 @@ import ModalView from '../components/ModalView';
 import {useNavigation} from '@react-navigation/native';
 import DifficultyLevel from '../components/DifficultyLevel';
 
+const images = [
+  require('../assets/images/img1.png'),
+  require('../assets/images/img2.png'),
+  require('../assets/images/img3.png'),
+  require('../assets/images/img4.png'),
+  require('../assets/images/img5.png'),
+];
 const Home = () => {
   const navigation = useNavigation();
-  const [scaleValue] = useState(new Animated.Value(1));
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = useState('easy');
   const {width, height} = Dimensions.get('window');
-  const [imageScaleValue] = useState(new Animated.Value(1));
+  const [imageAnimation] = useState(new Animated.Value(0));
   const [buttonScaleValue] = useState(new Animated.Value(1));
-  const scaleValue1 = new Animated.Value(1);
-  const scaleValue2 = new Animated.Value(1);
-  const scaleValue3 = new Animated.Value(1);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const startImageAnimation = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(imageScaleValue, {
-          toValue: 1.1,
-          duration: 1000,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-        Animated.timing(imageScaleValue, {
-          toValue: 1,
-          duration: 750,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start();
+    let index = 0;
+    const animate = () => {
+      Animated.timing(imageAnimation, {
+        toValue: index + 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }).start(({finished}) => {
+        if (finished) {
+          index = (index + 1) % images.length;
+          setCurrentImageIndex(index);
+          animate();
+        }
+      });
+    };
+    animate();
   };
+  useEffect(() => {
+    startImageAnimation();
+  }, []);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex(prevIndex => (prevIndex + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
   const startButtonAnimation = () => {
     Animated.loop(
       Animated.sequence([
@@ -65,11 +79,24 @@ const Home = () => {
       ]),
     ).start();
   };
-  useEffect(()=>{
+  useEffect(() => {
     startImageAnimation();
     startButtonAnimation();
-  },[]);
-  const imageScale = {transform: [{scale: imageScaleValue}]};
+  }, []);
+  const imageTransform = [
+    {
+      translateY: imageAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 20],
+      }),
+    },
+    {
+      scale: imageAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 1.2],
+      }),
+    },
+  ];
   const buttonScale = {transform: [{scale: buttonScaleValue}]};
   const handleExit = () => {
     Alert.alert(
@@ -121,12 +148,13 @@ const Home = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Tic Tac Toe</Text>
       </View>
-      <Animated.View style={[styles.main, imageScale]}>
-        <Animated.Image
-          source={require('../assets/images/img5.png')}
+      <Animated.View style={[styles.main, {transform: imageTransform}]}>
+        <Image
+          source={images[currentImageIndex]}
           style={{
             width: width * 0.4,
             height: height * 0.2,
+            aspectRatio: 1,
           }}
         />
       </Animated.View>
@@ -188,7 +216,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    paddingTop: '5%', 
+    paddingTop: '5%',
   },
   headerText: {
     fontSize: 48,
