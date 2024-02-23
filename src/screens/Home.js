@@ -110,7 +110,7 @@ const Home = () => {
           style: 'cancel',
         },
         {
-          text: 'Exit',
+          text: 'Ok',
           onPress: () => BackHandler.exitApp(),
         },
       ],

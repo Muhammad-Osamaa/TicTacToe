@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     color: '#C7EEFF',
     fontSize: Dimensions.get('window').width * 0.05,
     fontWeight: '600',
-    paddingHorizontal: '15%',
+    paddingHorizontal: '20%',
     paddingVertical: 5,
     borderRadius: 5,
   },
