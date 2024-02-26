@@ -82,7 +82,7 @@ const Home = () => {
     ).start();
   };
   useEffect(() => {
-    startImageAnimation();
+    //startImageAnimation();
     startButtonAnimation();
   }, []);
   const imageTransform = [
@@ -95,27 +95,22 @@ const Home = () => {
     {
       scale: imageAnimation.interpolate({
         inputRange: [0, 1],
-        outputRange: [1, 1.2],
+        outputRange: [height * 0.0015, height * 0.0013],
       }),
     },
   ];
   const buttonScale = {transform: [{scale: buttonScaleValue}]};
   const handleExit = () => {
-    Alert.alert(
-      'Exit App',
-      'Are You Sure Want to exit the game?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Ok',
-          onPress: () => BackHandler.exitApp(),
-        },
-      ],
-      {cancelable: false},
-    );
+    Alert.alert('Exit App', 'Are You Sure Want to exit the game?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Ok',
+        onPress: () => BackHandler.exitApp(),
+      },
+    ]);
   };
   const handleShowModal = () => {
     setIsModalVisible(true);
@@ -155,7 +150,7 @@ const Home = () => {
           source={images[currentImageIndex]}
           style={{
             width: width * 0.4,
-            height: height * 0.2,
+            height: height * 0.3,
             aspectRatio: 1,
             resizeMode: 'contain',
           }}
@@ -196,6 +191,7 @@ const Home = () => {
           </View>
         </TouchableOpacity>
       </View>
+
       <ModalView
         visible={isModalVisible}
         showCloseButton={true}
@@ -226,11 +222,14 @@ const styles = StyleSheet.create({
     paddingTop: '15%',
     alignItems: 'center',
     alignSelf: 'center',
+    position: 'relative',
   },
   buttonContainer: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 15,
+    marginTop: '5%'
   },
   buttonSpacer: {
     height: 20,
