@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
-    marginTop: '5%'
+    marginTop: '5%',
   },
   buttonSpacer: {
     height: 20,
@@ -278,5 +278,4 @@ const styles = StyleSheet.create({
     color: '#C7EEFF',
   },
 });
-
 export default Home;
